@@ -1,9 +1,16 @@
-package io.github.djunicode.djcomps;
+package io.github.djunicode.djcomps.Database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+
+import io.github.djunicode.djcomps.Database.Data.File;
+import io.github.djunicode.djcomps.Database.Data.Group;
+import io.github.djunicode.djcomps.Database.Data.Star;
+import io.github.djunicode.djcomps.Database.Data.User;
+import io.github.djunicode.djcomps.Database.DataDao.GroupDao;
+import io.github.djunicode.djcomps.Database.DataDao.UserDao;
 
 @SuppressWarnings("unused")
 @Database(entities = {User.class, Group.class, File.class, Star.class}, version = 1)

@@ -1,4 +1,4 @@
-package io.github.djunicode.djcomps;
+package io.github.djunicode.djcomps.Database.Data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
@@ -31,5 +31,4 @@ public class User {
         this.name = name;
         this.group_id = group_id;
     }
-
 }

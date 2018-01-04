@@ -1,4 +1,4 @@
-package io.github.djunicode.djcomps;
+package io.github.djunicode.djcomps.Database.Data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;

@@ -1,4 +1,4 @@
-package io.github.djunicode.djcomps;
+package io.github.djunicode.djcomps.Database;
 
 import android.arch.persistence.room.TypeConverter;
 
