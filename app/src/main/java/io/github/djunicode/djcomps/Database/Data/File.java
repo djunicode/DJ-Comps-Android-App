@@ -9,7 +9,6 @@ import java.util.Date;
 
 import io.github.djunicode.djcomps.Database.DateTypeConverter;
 
-@SuppressWarnings("WeakerAccess")
 @Entity(tableName = "files",
         foreignKeys = {
                 @ForeignKey(
@@ -24,9 +23,12 @@ public class File {
     @PrimaryKey
     public Long file_id;
 
+    @TypeConverters(DateTypeConverter.class)
+    public Date time_added;
+
     public Long sap_id;
 
-    public int size;
+    public Long size;
 
     public int no_of_stars;
 
@@ -36,10 +38,9 @@ public class File {
 
     public String name;
 
-    @TypeConverters(DateTypeConverter.class)
-    public Date time_added;
+    public String description;
 
-    public File(Long file_id, Long sap_id, int size, int no_of_downloads, int no_of_stars, String type, String name, Date time_added) {
+    public File(Long file_id, Long sap_id, Long size, int no_of_downloads, int no_of_stars, String type, String name, Date time_added, String description) {
         this.file_id=file_id;
         this.sap_id=sap_id;
         this.size=size;
@@ -48,5 +49,6 @@ public class File {
         this.type=type;
         this.name=name;
         this.time_added=time_added;
+        this.description = description;
     }
 }

@@ -3,38 +3,36 @@ package io.github.djunicode.djcomps.Database.DataDao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import io.github.djunicode.djcomps.Database.Data.Group;
 import io.github.djunicode.djcomps.Database.Data.User;
 
-import static android.arch.persistence.room.OnConflictStrategy.IGNORE;
-
-@SuppressWarnings("unused")
 @Dao
 public interface UserDao {
-    @Query("select * from users")
-    List<User> loadAllUsers();
-
-    @Query("select * from users where sap_id = :sap_id")
-    User loadUserBySapId(Long sap_id);
-
-    @Query("select * from users where name = :name")
-    List<User> findUserByName(String name);
-
-    @Insert(onConflict = IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(User user);
+
+    @Update
+    void updateUser(User user);
 
     @Delete
     void deleteUser(User user);
 
-    @Query("delete from users where name like :badName")
-    int deleteUsersByName(String badName);
+    @Query("delete from users where sap_id = :sap_id")
+    void deleteUser(Long sap_id);
 
-    @Query("delete from users where sap_id like :badSapId")
-    int deleteUsersBySapId(Long badSapId);
+    @Query("select * from users where sap_id = :sap_id")
+    User getUser(Long sap_id);
 
-    @Query("DELETE FROM users")
-    void deleteAll();
+    @Query("select * from users")
+    List<User> getAllUsers();
+
+    @Query("select * from groups, users where groups.group_id = users.group_id and sap_id = :sap_id")
+    Group getUserGroup(Long sap_id);
+
 }
