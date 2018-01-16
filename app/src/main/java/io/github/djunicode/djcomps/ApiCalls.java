@@ -1,3 +1,6 @@
+package io.github.djunicode.djcomps;
+
+import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -25,12 +28,12 @@ import io.github.djunicode.djcomps.Database.Data.File;
 
 public class ApiCalls {
 
-    List<File> files = new ArrayList<>();
+    List<File> files;
 
-    private void apiCall1() {
-
+    private void getAllFiles(final String start_idx, final String end_idx, final String sort_by, final String sort_order, Context context) {
 
         String url = "http://localhost";
+        files = new ArrayList<>();
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -43,12 +46,13 @@ public class ApiCalls {
                                 File item = new File(
                                         o.getLong("file_id"),
                                         o.getLong("sap_id"),
-                                        o.getInt("size"),
+                                        o.getLong("size"),
                                         o.getInt("no_of_downloads"),
                                         o.getInt("no_of_stars"),
                                         o.getString("type"),
                                         o.getString("name"),
-                                        new Date(o.getLong("time added"))
+                                        new Date(o.getLong("time added")),
+                                        o.getString("description")
                                 );
                                 files.add(item);
                             }
@@ -68,14 +72,16 @@ public class ApiCalls {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("start_idx", "0");
-                params.put("end_idx", "5");
+                params.put("start_idx", start_idx);
+                params.put("end_idx", end_idx);
+                params.put("sort_by", sort_by);
+                params.put("sort_order", sort_order);
 
                 return params;
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(postRequest);
 
     }
