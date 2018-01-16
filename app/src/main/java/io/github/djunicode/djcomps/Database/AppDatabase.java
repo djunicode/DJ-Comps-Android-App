@@ -9,7 +9,9 @@ import io.github.djunicode.djcomps.Database.Data.File;
 import io.github.djunicode.djcomps.Database.Data.Group;
 import io.github.djunicode.djcomps.Database.Data.Star;
 import io.github.djunicode.djcomps.Database.Data.User;
+import io.github.djunicode.djcomps.Database.DataDao.FileDao;
 import io.github.djunicode.djcomps.Database.DataDao.GroupDao;
+import io.github.djunicode.djcomps.Database.DataDao.StarDao;
 import io.github.djunicode.djcomps.Database.DataDao.UserDao;
 
 @SuppressWarnings("unused")
@@ -20,7 +22,11 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userModel();
 
-    public abstract GroupDao bookModel();
+    public abstract GroupDao groupModel();
+
+    public abstract FileDao fileModel();
+
+    public abstract StarDao starModel();
 
 
     public static AppDatabase getInMemoryDatabase(Context context) {

@@ -1,4 +1,4 @@
-# DJ Comps Android App
+# DJ Comps Android App [![Build Status](https://travis-ci.org/djunicode/DJ-Comps-Android-App.svg?branch=master)](https://travis-ci.org/djunicode/DJ-Comps-Android-App)
 
 
 #### Use Cases: 
