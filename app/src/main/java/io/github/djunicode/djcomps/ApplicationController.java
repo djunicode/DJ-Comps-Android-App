@@ -1,4 +1,4 @@
-package io.github.djunicode.djcomps.Database;
+package io.github.djunicode.djcomps;
 
 import android.app.Application;
 import android.text.TextUtils;
