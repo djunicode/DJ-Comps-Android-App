@@ -9,7 +9,7 @@ import java.util.Date;
 
 import io.github.djunicode.djcomps.Database.DateTypeConverter;
 
-                    @Entity(tableName = "files",
+@Entity(tableName = "files",
         foreignKeys = {
                 @ForeignKey(
                         entity = User.class,
