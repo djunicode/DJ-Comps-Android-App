@@ -51,6 +51,5 @@ public class HTTPRequests {
         ApplicationController.getInstance().addToRequestQueue(req);
 
     }
-
 }
 
