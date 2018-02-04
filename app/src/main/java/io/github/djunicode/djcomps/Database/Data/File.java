@@ -51,6 +51,9 @@ public class File {
         this.time_added=time_added;
         this.description = description;
     }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> dbcff5cd3985f5ea3e218335519637dc56a07147
 }
