@@ -16,7 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import io.github.djunicode.djcomps.Database.Data.File;
 
 
 public class myuploads extends Fragment implements OnItemClickListener{
@@ -24,18 +27,23 @@ public class myuploads extends Fragment implements OnItemClickListener{
 
     private RecyclerView recyclerView;
     private DocumentsAdapter adapter;
-    private List<Documents> documents;
+    private List<File> documents;
 
 
     @Override
     public void onClick(View view, int position) {
         // The onClick implementation of the RecyclerView item click
-        final Documents doc = documents.get(position);
+        final File doc = documents.get(position);
         Intent i = new Intent(getContext(), FileDetails.class);
-        i.putExtra("filename", doc.getName());
-        i.putExtra("creator", doc.getCreator());
-       // i.putExtra("image", doc.getImg());
-        i.putExtra("subject", doc.getSubject());
+        i.putExtra("filename", doc.name);
+        i.putExtra("id", doc.file_id);
+        i.putExtra("sap",doc.sap_id);
+        i.putExtra("time",doc.time_added);
+        i.putExtra("size",doc.size);
+        i.putExtra("stars",doc.no_of_stars);
+        i.putExtra("downloads",doc.no_of_downloads);
+        i.putExtra("type",doc.type);
+        i.putExtra("description",doc.description);
         startActivity(i);
     }
     @Nullable
@@ -67,27 +75,22 @@ public class myuploads extends Fragment implements OnItemClickListener{
 
 
     private void prepareStaredItems() {
-        int[] img = new int[]{
-                R.drawable.img1,
-                R.drawable.img2,
-                R.drawable.img3,
-                R.drawable.img4
-        };
 
-        Documents ar[];
-        ar=new Documents[10];
 
-        ar[0]= new Documents("Doc1","eccf","SE",img[0],"Varun",true,false);
-        ar[1] = new Documents("Doc2","dlda","SE A",img[1],"xyz",false,false);
-        ar[2] = new Documents("Doc3","oopm","SE B",img[2],"abc",true,false);
-        ar[3] = new Documents("Doc4","ds","dept",img[3],"Varun",false,true);
-        ar[4] = new Documents("Doc5","physics","FE",img[2],"xyz",true,true);
-        ar[5] = new Documents("Doc6","chemistry","dept",img[3],"abc",false,false);
+        File ar[];
+        ar=new File[10];
+
+        ar[0]= new File(new Long(1234567891),new Long(600122),new Long(21),5,4,"pdf","eccf notes",new Date(01/01/1997),"fgdfg");
+        ar[1]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","dlda notes",new Date(01/01/1997),"fgdfg");
+        ar[2]= new File(new Long(1234567891),new Long(600122),new Long(21),5,4,"pdf","cg notes",new Date(01/01/1997),"fgdfg");
+        ar[3]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","sdadf notes",new Date(01/01/1997),"fgdfg");
+        ar[4]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","gdfghgfh notes",new Date(01/01/1997),"fgdfg");
+        ar[5]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","xxx notes",new Date(01/01/1997),"fgdfg");
 
 
         for(int i=0;i<6;i++)
         {
-            if(ar[i].getCreator()=="Varun")
+            if(ar[i].sap_id==new Long(600122))
                 documents.add(ar[i]);
 
         }

@@ -11,16 +11,16 @@
         android:id="@+id/imageView"
         android:layout_width="373dp"
         android:layout_height="115dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/textView"
@@ -40,39 +40,36 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="8dp"
         android:background="#fafafa"
-        />
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/sharedlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="Shared With :"
         android:textSize="20dp"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="368dp"
-        android:layout_height="201dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="182dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/file_details_shape"
         app:layout_constraintHorizontal_bias="0.0"
@@ -106,82 +103,156 @@
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/sizelabel"
+                android:id="@+id/idlabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/filenamelabel"
                 android:layout_margin="10dp"
-                android:text="Size : "
+                android:text="Id : "
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/filename"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/idlabel"
+                android:text="id"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/saplabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/idlabel"
+                android:layout_margin="10dp"
+                android:text="Sap Id : "
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/sap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/id"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@id/saplabel"
+                android:text="sap"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/timelabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/saplabel"
+                android:layout_margin="10dp"
+                android:text="Uploaded On : "
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sap"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/timelabel"
+                android:text="time"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/starlabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/timelabel"
+                android:layout_margin="10dp"
+                android:text="Stars : "
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/timelabel"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/starlabel"
+                android:text="star"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/sizelabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/starlabel"
+                android:layout_margin="10dp"
+                android:text=" Size :"
                 android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/filename"
+                android:layout_below="@+id/starlabel"
                 android:layout_margin="10dp"
                 android:layout_toRightOf="@+id/sizelabel"
-                android:text="Size "
+                android:text="size"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/downloadslabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sizelabel"
+                android:layout_margin="10dp"
+                android:text="Download No. :"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/downloads"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sizelabel"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/downloadslabel"
+                android:text="downloads"
                 android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/typelabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/sizelabel"
+                android:layout_below="@+id/downloadslabel"
                 android:layout_margin="10dp"
-                android:text="Type : "
+                android:text="File Type :"
                 android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/size"
+                android:layout_below="@id/downloadslabel"
                 android:layout_margin="10dp"
-                android:layout_toRightOf="@id/typelabel"
-                android:text="Type "
+                android:layout_toRightOf="@+id/typelabel"
+                android:text="type"
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/creatorlabel"
+                android:id="@+id/descriptionlabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/typelabel"
+                android:layout_below="@+id/typelabel"
                 android:layout_margin="10dp"
-                android:text="Created By : "
+                android:text="Description :"
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/creator"
+                android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/type"
+                android:layout_below="@+id/typelabel"
                 android:layout_margin="10dp"
-                android:layout_toRightOf="@+id/creatorlabel"
-                android:text="creator"
+                android:layout_toRightOf="@+id/descriptionlabel"
+                android:text="description"
                 android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/subjectlabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_below="@+id/creatorlabel"
-                android:text="Subject : "
-                android:textSize="20dp"/>
-
-            <TextView
-                android:id="@+id/subject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_toRightOf="@+id/subjectlabel"
-                android:layout_below="@+id/creatorlabel"
-                android:text="subject"
-                android:textSize="20dp"/>
-
-
 
 
         </RelativeLayout>
@@ -266,7 +337,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/sharedlabel" />
         </LinearLayout>
     </HorizontalScrollView>
-
 
 
 </android.support.constraint.ConstraintLayout>

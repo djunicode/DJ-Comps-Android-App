@@ -32,7 +32,7 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/subject"
+                android:id="@+id/star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name"
@@ -45,7 +45,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/subject"
+                android:layout_below="@+id/star"
                 android:layout_toEndOf="@+id/img"
                 android:paddingLeft="10dp"
                 android:text="Submission date"

@@ -16,9 +16,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.*;
 
+import io.github.djunicode.djcomps.Database.Data.File;
+
 public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewHolder> {
     private Context mContext;
-    private List<Documents> documents;
+    private List<File> documents;
     private static OnItemClickListener clickListener;
 
     // Provide a reference to the views for each data item
@@ -33,8 +35,8 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.View
         public ViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            subject = (TextView) view.findViewById(R.id.subject);
-            access = (TextView) view.findViewById(R.id.access);
+            //subject = (TextView) view.findViewById(R.id.subject);
+            //access = (TextView) view.findViewById(R.id.access);
             img = (ImageView) view.findViewById(R.id.img);
 
             itemView.setOnClickListener(this);
@@ -50,7 +52,7 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.View
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public DocumentsAdapter(Context mContext, List<Documents> documents) {
+    public DocumentsAdapter(Context mContext, List<File> documents) {
         this.mContext = mContext;
         this.documents=documents;
     }
@@ -72,14 +74,14 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.View
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        Documents album = documents.get(position);
-        holder.title.setText(album.getName());
-        holder.subject.setText(album.getSubject());
-        holder.access.setText(album.getAccess());
+        File album = documents.get(position);
+        holder.title.setText(album.name);
+        //holder.subject.setText(album.getSubject());
+        //holder.access.setText(album.getAccess());
 
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(album.getImg()).into(holder.img);
+       // Glide.with(mContext).load(album.img).into(holder.img);
 
     }
 
