@@ -33,7 +33,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
         public ViewHolder(View view) {
             super(view);
             cardView = (CardView) itemView.findViewById(R.id.dCard);
-            title = (TextView) view.findViewById(R.id.name);
+            title = (TextView) view.findViewById(R.id.filename);
             subject = (TextView) view.findViewById(R.id.star);
             date = (TextView) view.findViewById(R.id.date);
             img = (ImageView) view.findViewById(R.id.img);

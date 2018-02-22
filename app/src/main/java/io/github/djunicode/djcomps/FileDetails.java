@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Date;
-
 public class FileDetails extends AppCompatActivity {
 
     TextView filename,idview,sapview,timeview,sizeview,starsview,downloadsview,typeview,descriptionview;

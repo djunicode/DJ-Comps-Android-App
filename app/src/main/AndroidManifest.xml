@@ -23,7 +23,8 @@
             android:name=".NavActivity"
             android:label="@string/title_activity_nav"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FileDetails"></activity>
+        <activity android:name=".FileDetails" />
+        <activity android:name=".UserPage"></activity>
     </application>
 
 </manifest>

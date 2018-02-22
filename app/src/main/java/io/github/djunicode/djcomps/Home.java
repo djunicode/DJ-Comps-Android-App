@@ -65,7 +65,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener {
         adapter = new DocumentsAdapter(this,documents);
         adapter.setClickListener(this);
 
-        Button explore = (Button) findViewById(R.id.explore);
+        Button explore = (Button) findViewById(R.id.uploads);
         explore.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), NavActivity.class);

@@ -21,7 +21,8 @@ import java.util.List;
 import io.github.djunicode.djcomps.Database.Data.File;
 
 
-public class starred extends Fragment implements OnItemClickListener{
+public class uploads extends Fragment implements OnItemClickListener {
+
 
     private RecyclerView recyclerView;
     private DocumentsAdapter adapter;
@@ -44,12 +45,14 @@ public class starred extends Fragment implements OnItemClickListener{
         i.putExtra("description",doc.description);
         startActivity(i);
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         View view = inflater.inflate(R.layout.uploads_fragment, container, false);
+
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         documents = new ArrayList<>();
@@ -67,8 +70,10 @@ public class starred extends Fragment implements OnItemClickListener{
         adapter = new DocumentsAdapter(getContext(),documents);
         adapter.setClickListener(this);
 
+
         return view;
     }
+
 
 
     private void prepareStaredItems() {
@@ -88,16 +93,14 @@ public class starred extends Fragment implements OnItemClickListener{
         ar[3]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","sdadf notes",new Date(01/01/1997),"fgdfg");
         ar[4]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","gdfghgfh notes",new Date(01/01/1997),"fgdfg");
         ar[5]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","xxx notes",new Date(01/01/1997),"fgdfg");
-        ar[2].isStar=true;
-        ar[5].isStar=true;
 
 
         for(int i=0;i<6;i++)
         {
-            if(ar[i].isStar)
-                documents.add(ar[i]);
+            documents.add(ar[i]);
 
         }
+
 
         adapter.notifyDataSetChanged();
     }
@@ -150,11 +153,16 @@ public class starred extends Fragment implements OnItemClickListener{
 
 
 
+
+
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("Starred");
+        getActivity().setTitle("Uploads");
     }
 }
+
 
