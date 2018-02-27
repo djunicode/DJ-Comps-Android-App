@@ -29,9 +29,9 @@ public class HTTPRequests {
     List<String> usersinfo;
 
 
-    public void onLoginRequest(final String sap_id, final String password) {
+    public static void onLoginRequest(final String sap_id, final String password) {
 
-        String url = "http://localhost";
+        String url = "http://127.0.0.1:8000";
 
 
 

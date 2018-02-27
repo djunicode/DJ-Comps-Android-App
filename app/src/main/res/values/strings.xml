@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">DJ Comps</string>
+    <string name="sap">Sap id</string>
+    <string name="password">Password</string>
+    <string name="login">login</string>
+    <string name="deadlines">Upcoming Deadlines</string>
+    <string name="uploads">Recent Uploads</string>
+    <string name="explore">explore</string>
+    <string name="title_activity_nav">NavActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
