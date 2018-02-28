@@ -74,12 +74,7 @@ public class explore extends Fragment implements OnItemClickListener {
 
 
     private void prepareStaredItems() {
-        int[] img = new int[]{
-                R.drawable.img1,
-                R.drawable.img2,
-                R.drawable.img3,
-                R.drawable.img4
-        };
+
 
         User ar[];
         ar=new User[10];

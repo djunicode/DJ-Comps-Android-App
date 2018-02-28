@@ -25,7 +25,7 @@ public class FileDetails extends AppCompatActivity {
         int stars=0,downloads=0;
 
         //int img=R.drawable.img1;
-        filename=(TextView) findViewById(R.id.filename);
+        filename=(TextView) findViewById(R.id.title);
         idview=(TextView)findViewById(R.id.id);
         sapview=(TextView)findViewById(R.id.sap);
         timeview=(TextView)findViewById(R.id.time);
