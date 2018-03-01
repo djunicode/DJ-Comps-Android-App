@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
+import io.github.djunicode.djcomps.Fragments.HomeFragment;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -179,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.apply();
 
                 wrActivity.get().finish();
-                wrActivity.get().startActivity(new Intent(wrContext.get(), HomeActivity.class));
+                wrActivity.get().startActivity(new Intent(wrContext.get(), HomeFragment.class));
             }
             else{
                 wrSapET.get().setError(wrContext.get().getString(R.string.error_incorrect_password));

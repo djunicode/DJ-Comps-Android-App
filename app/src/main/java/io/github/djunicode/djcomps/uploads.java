@@ -54,7 +54,7 @@ public class uploads extends Fragment implements OnItemClickListener {
         View view = inflater.inflate(R.layout.uploads_fragment, container, false);
 
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         documents = new ArrayList<>();
         adapter = new DocumentsAdapter(getActivity(), documents);
 

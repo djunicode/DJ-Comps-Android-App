@@ -35,6 +35,14 @@
     <string name="background_image">Background Image</string>
     <string name="logo_image">Logo Image</string>
 
-
+    <!-- Navigation drawer -->
+    <string name="nav_home">Home</string>
+    <string name="nav_cloud_share">Cloud Shar</string>
+    <string name="nav_explore">Explore</string>
+    <string name="nav_uploads">Uploads</string>
+    <string name="nav_stars">Stars</string>
+    <string name="nav_downloads">Downloads</string>
+    <string name="nav_misc">Misc</string>
+    <string name="nav_logout">Logout</string>
 
 </resources>

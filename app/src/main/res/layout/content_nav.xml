@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="io.github.djunicode.djcomps.NavActivity"
+    tools:context="io.github.djunicode.djcomps.MainActivity"
     tools:showIn="@layout/app_bar_nav">
 
     <FrameLayout

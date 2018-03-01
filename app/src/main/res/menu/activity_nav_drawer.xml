@@ -3,40 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/nav_home" />
 
-        <item
-            android:id="@+id/nav_Upload"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Uploads" />
-        <item
-            android:id="@+id/nav_Explore"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Explore" />
-        <item
-            android:id="@+id/nav_Myuploads"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="My_Uploads" />
-        <item
-            android:id="@+id/nav_Starred"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Starred" />
-        <item
-            android:id="@+id/nav_Downloaded"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Downloaded" />
-    </group>
-
-    <item android:title="Communicate">
+    <item android:title="@string/nav_cloud_share">
         <menu>
-            <item
-                android:id="@+id/nav_Home"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Home" />
-            <item
-                android:id="@+id/nav_Logout"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Logout" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_explore"
+                    android:icon="@drawable/ic_folder_shared_black_24dp"
+                    android:title="@string/nav_explore" />
+                <item
+                    android:id="@+id/nav_upload"
+                    android:icon="@drawable/ic_file_upload_black_24dp"
+                    android:title="@string/nav_uploads" />
+                <item
+                    android:id="@+id/nav_starred"
+                    android:icon="@drawable/ic_star_black_24dp"
+                    android:title="@string/nav_stars" />
+                <item
+                    android:id="@+id/nav_downloaded"
+                    android:icon="@drawable/ic_file_download_black_24dp"
+                    android:title="@string/nav_downloads" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/nav_misc">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_logout"
+                    android:icon="@drawable/ic_exit_to_app_black_24dp"
+                    android:title="@string/nav_logout" />
+            </group>
         </menu>
     </item>
 
