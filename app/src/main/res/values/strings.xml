@@ -45,4 +45,12 @@
     <string name="nav_misc">Misc</string>
     <string name="nav_logout">Logout</string>
 
+    <!-- Placeholder text -->
+    <string name="placeholder_char">P</string>
+    <string name="placeholder_digit">0</string>
+    <string name="placeholder_digit3">012</string>
+    <string name="placeholder_digit5">01234</string>
+    <string name="placeholder_date">01 Jan 2000</string>
+    <string name="placeholder_text">Lorem Ipsum</string>
+
 </resources>

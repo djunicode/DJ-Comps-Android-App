@@ -1,6 +1,5 @@
 package io.github.djunicode.djcomps.fragments;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -14,21 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import io.github.djunicode.djcomps.FileDetails;
-import io.github.djunicode.djcomps.OnItemClickListener;
 import io.github.djunicode.djcomps.R;
-import io.github.djunicode.djcomps.adapters.DocumentAdapter;
+import io.github.djunicode.djcomps.adapters.FileAdapter;
 import io.github.djunicode.djcomps.database.data.File;
 
 
 public class StarsFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private DocumentAdapter adapter;
+    private FileAdapter adapter;
 
     @Nullable
     @Override
@@ -38,7 +33,7 @@ public class StarsFragment extends Fragment {
         View view = inflater.inflate(R.layout.uploads_fragment, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new DocumentAdapter();
+        adapter = new FileAdapter();
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -49,7 +44,7 @@ public class StarsFragment extends Fragment {
 
         prepareStaredItems();
 
-        adapter = new DocumentAdapter();
+        adapter = new FileAdapter();
 
         return view;
     }
@@ -73,7 +68,7 @@ public class StarsFragment extends Fragment {
 
         for(int i=0;i<6;i++) {
             if(ar[i].isStar)
-                adapter.addDocument(ar[i]);
+                adapter.addFile(ar[i]);
 
         }
 

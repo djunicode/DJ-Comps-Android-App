@@ -11,27 +11,27 @@ import android.view.ViewGroup;
 
 import java.util.Date;
 
-import io.github.djunicode.djcomps.adapters.DocumentAdapter;
+import io.github.djunicode.djcomps.adapters.FileAdapter;
 import io.github.djunicode.djcomps.database.data.File;
 import io.github.djunicode.djcomps.R;
 
 
 public class HomeFragment extends Fragment {
 
-    private DocumentAdapter recentDocumentAdapter, popularDocumentAdapter;
+    private FileAdapter recentFileAdapter, popularFileAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        recentDocumentAdapter = new DocumentAdapter();
-        popularDocumentAdapter = new DocumentAdapter();
+        recentFileAdapter = new FileAdapter();
+        popularFileAdapter = new FileAdapter();
 
-        RecyclerView recentDocRV = view.findViewById(R.id.recent_uploads_rv);
-        RecyclerView popularDocRV = view.findViewById(R.id.popular_uploads_rv);
+        RecyclerView recentFileRV = view.findViewById(R.id.recent_uploads_rv);
+        RecyclerView popularFileRV = view.findViewById(R.id.popular_uploads_rv);
 
-        recentDocRV.setAdapter(recentDocumentAdapter);
-        popularDocRV.setAdapter(popularDocumentAdapter);
+        recentFileRV.setAdapter(recentFileAdapter);
+        popularFileRV.setAdapter(popularFileAdapter);
 
         prepareRecentItems();
         preparePopularItems();
@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
         ar[5]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","xxx notes",new Date(01/01/1997),"fgdfg");
 
         for(int i=0; i<6; i++){
-            recentDocumentAdapter.addDocument(ar[i]);
+            recentFileAdapter.addFile(ar[i]);
         }
 
     }
@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
         ar[5]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","xxx notes",new Date(01/01/1997),"fgdfg");
 
         for(int i=0; i<6; i++){
-            popularDocumentAdapter.addDocument(ar[i]);
+            popularFileAdapter.addFile(ar[i]);
         }
 
     }

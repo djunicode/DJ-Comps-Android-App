@@ -18,4 +18,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="BorderlessButtonWrapped" parent="Base.Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:minWidth">@null</item>
+    </style>
+
 </resources>
