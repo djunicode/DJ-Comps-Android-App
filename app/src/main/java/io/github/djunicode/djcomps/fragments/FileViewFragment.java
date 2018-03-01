@@ -22,11 +22,6 @@ public class FileViewFragment extends Fragment {
 
     public static FileViewFragment getInstance() {
         FileViewFragment fragment = new FileViewFragment();
-
-//        Bundle args = new Bundle();
-//        args.putInt("someInt", someInt);
-//        myFragment.setArguments(args);
-
         return fragment;
     }
 
