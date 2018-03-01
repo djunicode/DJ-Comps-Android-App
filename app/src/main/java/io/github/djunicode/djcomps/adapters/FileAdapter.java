@@ -1,6 +1,7 @@
 package io.github.djunicode.djcomps.adapters;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,18 +9,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.github.djunicode.djcomps.R;
+import io.github.djunicode.djcomps.Utils;
 import io.github.djunicode.djcomps.database.data.File;
 
 public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
 
     private List<File> fileList;
+    private boolean isHorizontal;
 
-    public FileAdapter(){
+    public FileAdapter(boolean isHorizontal){
         fileList = new ArrayList<>();
+        this.isHorizontal = isHorizontal;
     }
 
     public void addFile(File file){
@@ -37,25 +43,28 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         File file = fileList.get(position);
-        holder.title.setText(file.name);
+        holder.titleTV.setText(file.name);
+
+        SimpleDateFormat dateFormat =  new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+        holder.uploadDateTV.setText(dateFormat.format(file.time_added));
 
         if(file.no_of_stars > 0){
-            holder.noOfStars.setVisibility(View.VISIBLE);
+            holder.noOfStarsTV.setVisibility(View.VISIBLE);
             holder.starIcon.setVisibility(View.VISIBLE);
-            holder.noOfStars.setText(String.valueOf(file.no_of_stars));
+            holder.noOfStarsTV.setText(String.valueOf(file.no_of_stars));
         }
         else{
-            holder.noOfStars.setVisibility(View.GONE);
+            holder.noOfStarsTV.setVisibility(View.GONE);
             holder.starIcon.setVisibility(View.GONE);
         }
 
         if(file.no_of_downloads > 0){
-            holder.noOfDownloads.setVisibility(View.VISIBLE);
+            holder.noOfDownloadsTV.setVisibility(View.VISIBLE);
             holder.downloadIcon.setVisibility(View.VISIBLE);
-            holder.noOfDownloads.setText(String.valueOf(file.no_of_downloads));
+            holder.noOfDownloadsTV.setText(String.valueOf(file.no_of_downloads));
         }
         else{
-            holder.noOfDownloads.setVisibility(View.GONE);
+            holder.noOfDownloadsTV.setVisibility(View.GONE);
             holder.downloadIcon.setVisibility(View.GONE);
         }
 
@@ -75,17 +84,26 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, noOfStars, noOfDownloads;
+        CardView fileCard;
+        TextView titleTV, uploadDateTV, noOfStarsTV, noOfDownloadsTV;
         ImageView isDownloadedIcon, starIcon, downloadIcon;
 
         ViewHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.file_title);
-            noOfStars = itemView.findViewById(R.id.file_no_stars);
-            noOfDownloads = itemView.findViewById(R.id.file_no_downloads);
+            fileCard = itemView.findViewById(R.id.file_card);
+            titleTV = itemView.findViewById(R.id.file_title);
+            uploadDateTV = itemView.findViewById(R.id.file_uploaded_date);
+            noOfStarsTV = itemView.findViewById(R.id.file_no_stars);
+            noOfDownloadsTV = itemView.findViewById(R.id.file_no_downloads);
             isDownloadedIcon = itemView.findViewById(R.id.file_download_status);
             starIcon = itemView.findViewById(R.id.file_stars_icon);
             downloadIcon = itemView.findViewById(R.id.file_downloads_icon);
+
+            if(isHorizontal){
+                ViewGroup.LayoutParams params = fileCard.getLayoutParams();
+                params.width = Utils.dpToPx(180);
+                fileCard.setLayoutParams(params);
+            }
 
         }
 

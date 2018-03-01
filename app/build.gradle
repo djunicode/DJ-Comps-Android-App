@@ -46,4 +46,6 @@ dependencies {
     compile 'com.android.support:design:+'
     compile 'com.android.support:support-v4:27.0.2'
     testCompile 'junit:junit:4.12'
+
+    compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
 }

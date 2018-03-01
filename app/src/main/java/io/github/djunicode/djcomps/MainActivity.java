@@ -8,8 +8,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,11 +19,8 @@ import android.view.MenuItem;
 
 import java.lang.ref.WeakReference;
 
+import io.github.djunicode.djcomps.fragments.FileViewFragment;
 import io.github.djunicode.djcomps.fragments.HomeFragment;
-import io.github.djunicode.djcomps.fragments.ExploreFragment;
-import io.github.djunicode.djcomps.fragments.StarsFragment;
-import io.github.djunicode.djcomps.fragments.UploadsFragment;
-import io.github.djunicode.djcomps.fragments.DownloadsFragment;
 
 import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_ID;
 import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_LOGGED_IN_STATE;
@@ -80,16 +77,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //initializing the fragment object which is selected
         switch (itemId) {
             case R.id.nav_upload:
-                fragment = new UploadsFragment();
+                fragment = FileViewFragment.getInstance();
                 break;
             case R.id.nav_explore:
-                fragment = new ExploreFragment();
+                fragment = FileViewFragment.getInstance();
                 break;
             case R.id.nav_starred:
-                fragment = new StarsFragment();
+                fragment = FileViewFragment.getInstance();
                 break;
             case R.id.nav_downloaded:
-                fragment = new DownloadsFragment();
+                fragment = FileViewFragment.getInstance();
                 break;
             case R.id.nav_home:
                 fragment = new HomeFragment();

@@ -24,8 +24,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        recentFileAdapter = new FileAdapter();
-        popularFileAdapter = new FileAdapter();
+        recentFileAdapter = new FileAdapter(true);
+        popularFileAdapter = new FileAdapter(true);
 
         RecyclerView recentFileRV = view.findViewById(R.id.recent_uploads_rv);
         RecyclerView popularFileRV = view.findViewById(R.id.popular_uploads_rv);
