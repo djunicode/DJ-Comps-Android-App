@@ -12,4 +12,29 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="error_invalid_sap">This SAP id is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">Username or password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_account_missing">No such account exist</string>
+    <string name="login_authenticating">Authenticating</string>
+    <string name="login_logging_in">Logging In</string>
+
+    <!-- Login View strings -->
+    <string name="login_welcome_text">Hi there! Login to continue</string>
+    <string name="login_sap_edittext">SAP</string>
+    <string name="login_password_edittext">Password</string>
+    <string name="login_button_text">Login</string>
+
+    <!-- Image content description -->
+    <string name="background_image">Background Image</string>
+    <string name="logo_image">Logo Image</string>
+
+
+
 </resources>

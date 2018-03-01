@@ -1,29 +1,35 @@
 package io.github.djunicode.djcomps;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
-import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Button;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Date;
-
-import com.bumptech.glide.Glide;
-
-import java.util.*;
+import java.util.List;
 
 import io.github.djunicode.djcomps.Database.Data.File;
 
+import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_ID;
+import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_LOGGED_IN_STATE;
 
-public class Home extends AppCompatActivity implements OnItemClickListener {
+
+public class HomeActivity extends AppCompatActivity implements OnItemClickListener {
 
     private RecyclerView recyclerView;
     private DocumentsAdapter adapter;
@@ -63,10 +69,13 @@ public class Home extends AppCompatActivity implements OnItemClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        new LoginTask(this, progressDialog).execute();
+
         adapter = new DocumentsAdapter(this,documents);
         adapter.setClickListener(this);
 
-        Button explore = (Button) findViewById(R.id.uploads);
+        Button explore = findViewById(R.id.uploads);
         explore.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), NavActivity.class);
@@ -78,12 +87,12 @@ public class Home extends AppCompatActivity implements OnItemClickListener {
 
 
 
-        deadlineView = (RecyclerView) findViewById(R.id.deadline_view);
+        deadlineView = findViewById(R.id.deadline_view);
         deadlinelist = new ArrayList<>();
         deadlineadapter = new DeadlineAdapter(this, deadlinelist);
 
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         documents = new ArrayList<>();
         adapter = new DocumentsAdapter(this, documents);
 
@@ -212,14 +221,46 @@ public class Home extends AppCompatActivity implements OnItemClickListener {
     }
 
 
+    private static class LoginTask extends AsyncTask<Void, Void, Void> {
 
+        WeakReference<Activity> wrActivity;
+        WeakReference<Context> wrContext;
+        ProgressDialog progressDialog;
 
+        LoginTask(Activity activity, ProgressDialog pd){
+            wrActivity = new WeakReference<>(activity);
+            wrContext = new WeakReference<>(activity.getApplicationContext());
+            this.progressDialog = pd;
+        }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(wrContext.get().getString(R.string.login_logging_in));
+            progressDialog.show();
+        }
 
+        @Override
+        protected Void doInBackground(Void... params) {
+            SharedPreferences prefs = wrContext.get().getSharedPreferences(SP_LOGIN_ID, Context.MODE_PRIVATE);
+            boolean isLoggedIn = prefs.getBoolean(SP_LOGIN_LOGGED_IN_STATE, false);
 
+            //TODO: check token with server
 
+            if(!isLoggedIn){
+                wrActivity.get().finish();
+                wrActivity.get().startActivity(new Intent(wrActivity.get(), LoginActivity.class));
+            }
+            return null;
+        }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPreExecute();
+            progressDialog.dismiss();
+        }
 
-
+    }
 
 }

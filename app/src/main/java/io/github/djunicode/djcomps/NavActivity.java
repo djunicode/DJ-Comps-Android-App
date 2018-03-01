@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 public class NavActivity extends AppCompatActivity
@@ -88,10 +87,10 @@ public class NavActivity extends AppCompatActivity
                 fragment = new downloaded();
                 break;
             case R.id.nav_Home:
-                startActivity(new Intent(this, Home.class));
+                startActivity(new Intent(this, HomeActivity.class));
                 return;
             case R.id.nav_Logout:
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 return;
 
 
