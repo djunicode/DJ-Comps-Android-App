@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -20,30 +19,27 @@ import java.util.Date;
 import java.util.List;
 
 import io.github.djunicode.djcomps.Database.Data.File;
+import io.github.djunicode.djcomps.Database.Data.User;
 
 
 public class explore extends Fragment implements OnItemClickListener {
 
 
     private RecyclerView recyclerView;
-    private DocumentsAdapter adapter;
-    private List<File> documents;
+    private UsersAdapter adapter;
+    private List<User> documents;
 
 
     @Override
     public void onClick(View view, int position) {
         // The onClick implementation of the RecyclerView item click
-        final File doc = documents.get(position);
-        Intent i = new Intent(getContext(), FileDetails.class);
-        i.putExtra("filename", doc.name);
-        i.putExtra("id", doc.file_id);
+        final User doc = documents.get(position);
+        Intent i = new Intent(getContext(), UserPage.class);
+        i.putExtra("name", doc.name);
         i.putExtra("sap",doc.sap_id);
-        i.putExtra("time",doc.time_added);
-        i.putExtra("size",doc.size);
-        i.putExtra("stars",doc.no_of_stars);
-        i.putExtra("downloads",doc.no_of_downloads);
-        i.putExtra("type",doc.type);
-        i.putExtra("description",doc.description);
+        i.putExtra("bio",doc.bio);
+       // i.putExtra("group_id",doc.group_id);
+
         startActivity(i);
     }
 
@@ -57,7 +53,7 @@ public class explore extends Fragment implements OnItemClickListener {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         documents = new ArrayList<>();
-        adapter = new DocumentsAdapter(getActivity(), documents);
+        adapter = new UsersAdapter(getActivity(), documents);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -68,7 +64,7 @@ public class explore extends Fragment implements OnItemClickListener {
 
         prepareStaredItems();
 
-        adapter = new DocumentsAdapter(getContext(),documents);
+        adapter = new UsersAdapter(getContext(),documents);
         adapter.setClickListener(this);
 
 
@@ -78,22 +74,17 @@ public class explore extends Fragment implements OnItemClickListener {
 
 
     private void prepareStaredItems() {
-        int[] img = new int[]{
-                R.drawable.img1,
-                R.drawable.img2,
-                R.drawable.img3,
-                R.drawable.img4
-        };
 
-        File ar[];
-        ar=new File[10];
 
-        ar[0]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","eccf notes",new Date(01/01/1997),"fgdfg");
-        ar[1]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","dlda notes",new Date(01/01/1997),"fgdfg");
-        ar[2]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","cg notes",new Date(01/01/1997),"fgdfg");
-        ar[3]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","sdadf notes",new Date(01/01/1997),"fgdfg");
-        ar[4]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","gdfghgfh notes",new Date(01/01/1997),"fgdfg");
-        ar[5]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","xxx notes",new Date(01/01/1997),"fgdfg");
+        User ar[];
+        ar=new User[10];
+
+        ar[0]= new User(new Long(600122),"hi my name is varun. This is the Unicode Project.","Varun P Thakkar",new Long(87876),".");
+        ar[1]= new User(new Long(600123),"hi my name is mohit. This is the java Project.","Mohit Thurakhia",new Long(87876),".");
+        ar[2]= new User(new Long(600114),"hi my name is umair. This is the python Project.","M.Umair Siddiqui",new Long(87876),".");
+        ar[3]= new User(new Long(600104),"hi my name is rohan. This is the Unicode thing.","Rohan Shah",new Long(87876),".");
+        ar[4]= new User(new Long(600103),"hi my name is reny. This is not my project.","Reny Shah",new Long(87876),".");
+        ar[5]= new User(new Long(600102),"hi my name is rhs. This is the Project.","Raj H Shah",new Long(87876),".");
 
 
         for(int i=0;i<6;i++)

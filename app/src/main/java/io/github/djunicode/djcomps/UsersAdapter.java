@@ -17,10 +17,11 @@ import com.bumptech.glide.Glide;
 import java.util.*;
 
 import io.github.djunicode.djcomps.Database.Data.File;
+import io.github.djunicode.djcomps.Database.Data.User;
 
-public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHolder> {
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
     private Context mContext;
-    private List<File> documents;
+    private List<User> documents;
     private static OnItemClickListener clickListener;
 
     // Provide a reference to the views for each data item
@@ -34,7 +35,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
 
         public ViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
+            title = (TextView) view.findViewById(R.id.name);
             //subject = (TextView) view.findViewById(R.id.subject);
             //access = (TextView) view.findViewById(R.id.access);
             img = (ImageView) view.findViewById(R.id.img);
@@ -52,18 +53,18 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public DeadlineAdapter(Context mContext, List<File> documents) {
+    public UsersAdapter(Context mContext, List<User> documents) {
         this.mContext = mContext;
         this.documents=documents;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public DeadlineAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public UsersAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                           int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.deadline_card, parent, false);
+                .inflate(R.layout.user_card, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -74,7 +75,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        File album = documents.get(position);
+        User album = documents.get(position);
         holder.title.setText(album.name);
         //holder.subject.setText(album.getSubject());
         //holder.access.setText(album.getAccess());
