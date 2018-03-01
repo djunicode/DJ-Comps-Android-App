@@ -18,49 +18,27 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.github.djunicode.djcomps.DocumentsAdapter;
 import io.github.djunicode.djcomps.FileDetails;
 import io.github.djunicode.djcomps.OnItemClickListener;
 import io.github.djunicode.djcomps.R;
+import io.github.djunicode.djcomps.adapters.DocumentAdapter;
 import io.github.djunicode.djcomps.database.data.File;
 
 
-public class UploadsFragment extends Fragment implements OnItemClickListener {
+public class UploadsFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
-    private DocumentsAdapter adapter;
-    private List<File> documents;
-
-
-    @Override
-    public void onClick(View view, int position) {
-        // The onClick implementation of the RecyclerView item click
-        final File doc = documents.get(position);
-        Intent i = new Intent(getContext(), FileDetails.class);
-        i.putExtra("filename", doc.name);
-        i.putExtra("id", doc.file_id);
-        i.putExtra("sap",doc.sap_id);
-        i.putExtra("time",doc.time_added);
-        i.putExtra("size",doc.size);
-        i.putExtra("stars",doc.no_of_stars);
-        i.putExtra("downloads",doc.no_of_downloads);
-        i.putExtra("type",doc.type);
-        i.putExtra("description",doc.description);
-        startActivity(i);
-    }
+    private DocumentAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //returning our layout file
-        //change R.layout.yourlayoutfilename for each of your fragments
         View view = inflater.inflate(R.layout.uploads_fragment, container, false);
 
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        documents = new ArrayList<>();
-        adapter = new DocumentsAdapter(getActivity(), documents);
+        adapter = new DocumentAdapter();
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -71,8 +49,7 @@ public class UploadsFragment extends Fragment implements OnItemClickListener {
 
         prepareStaredItems();
 
-        adapter = new DocumentsAdapter(getContext(),documents);
-        adapter.setClickListener(this);
+        adapter = new DocumentAdapter();
 
 
         return view;
@@ -94,14 +71,11 @@ public class UploadsFragment extends Fragment implements OnItemClickListener {
         ar[5]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","xxx notes",new Date(01/01/1997),"fgdfg");
 
 
-        for(int i=0;i<6;i++)
-        {
-            documents.add(ar[i]);
+        for(int i=0;i<6;i++) {
+            adapter.addDocument(ar[i]);
 
         }
 
-
-        adapter.notifyDataSetChanged();
     }
 
 
