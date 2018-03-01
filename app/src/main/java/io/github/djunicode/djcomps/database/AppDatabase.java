@@ -1,18 +1,18 @@
-package io.github.djunicode.djcomps.Database;
+package io.github.djunicode.djcomps.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import io.github.djunicode.djcomps.Database.Data.File;
-import io.github.djunicode.djcomps.Database.Data.Group;
-import io.github.djunicode.djcomps.Database.Data.Star;
-import io.github.djunicode.djcomps.Database.Data.User;
-import io.github.djunicode.djcomps.Database.DataDao.FileDao;
-import io.github.djunicode.djcomps.Database.DataDao.GroupDao;
-import io.github.djunicode.djcomps.Database.DataDao.StarDao;
-import io.github.djunicode.djcomps.Database.DataDao.UserDao;
+import io.github.djunicode.djcomps.database.data.File;
+import io.github.djunicode.djcomps.database.data.Group;
+import io.github.djunicode.djcomps.database.data.Star;
+import io.github.djunicode.djcomps.database.data.User;
+import io.github.djunicode.djcomps.database.datadao.FileDao;
+import io.github.djunicode.djcomps.database.datadao.GroupDao;
+import io.github.djunicode.djcomps.database.datadao.StarDao;
+import io.github.djunicode.djcomps.database.datadao.UserDao;
 
 @SuppressWarnings("unused")
 @Database(entities = {User.class, Group.class, File.class, Star.class}, version = 1)

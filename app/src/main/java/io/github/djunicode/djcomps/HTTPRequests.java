@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.github.djunicode.djcomps.Database.Data.File;
+import io.github.djunicode.djcomps.database.data.File;
 
 public class HTTPRequests {
 

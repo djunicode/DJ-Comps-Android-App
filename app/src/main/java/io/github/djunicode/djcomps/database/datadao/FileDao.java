@@ -1,4 +1,4 @@
-package io.github.djunicode.djcomps.Database.DataDao;
+package io.github.djunicode.djcomps.database.datadao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -8,8 +8,8 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import io.github.djunicode.djcomps.Database.Data.File;
-import io.github.djunicode.djcomps.Database.Data.User;
+import io.github.djunicode.djcomps.database.data.File;
+import io.github.djunicode.djcomps.database.data.User;
 
 @SuppressWarnings("unused")
 @Dao

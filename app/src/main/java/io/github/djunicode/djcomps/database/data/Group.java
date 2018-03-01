@@ -1,4 +1,4 @@
-package io.github.djunicode.djcomps.Database.Data;
+package io.github.djunicode.djcomps.database.data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

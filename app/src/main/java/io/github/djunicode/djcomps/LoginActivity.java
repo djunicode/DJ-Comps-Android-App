@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
-import io.github.djunicode.djcomps.Fragments.HomeFragment;
+import io.github.djunicode.djcomps.fragments.HomeFragment;
 
 
 public class LoginActivity extends AppCompatActivity {

@@ -19,7 +19,11 @@ import android.view.MenuItem;
 
 import java.lang.ref.WeakReference;
 
-import io.github.djunicode.djcomps.Fragments.HomeFragment;
+import io.github.djunicode.djcomps.fragments.HomeFragment;
+import io.github.djunicode.djcomps.fragments.ExploreFragment;
+import io.github.djunicode.djcomps.fragments.StarsFragment;
+import io.github.djunicode.djcomps.fragments.UploadsFragment;
+import io.github.djunicode.djcomps.fragments.DownloadsFragment;
 
 import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_ID;
 import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_LOGGED_IN_STATE;
@@ -76,16 +80,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //initializing the fragment object which is selected
         switch (itemId) {
             case R.id.nav_upload:
-                fragment = new uploads();
+                fragment = new UploadsFragment();
                 break;
             case R.id.nav_explore:
-                fragment = new explore();
+                fragment = new ExploreFragment();
                 break;
             case R.id.nav_starred:
-                fragment = new starred();
+                fragment = new StarsFragment();
                 break;
             case R.id.nav_downloaded:
-                fragment = new downloaded();
+                fragment = new DownloadsFragment();
                 break;
             case R.id.nav_home:
                 fragment = new HomeFragment();

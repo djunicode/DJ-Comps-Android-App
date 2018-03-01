@@ -3,7 +3,6 @@ package io.github.djunicode.djcomps;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,13 +10,11 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.djunicode.djcomps.Database.AppDatabase;
-import io.github.djunicode.djcomps.Database.Data.File;
-import io.github.djunicode.djcomps.Database.Data.Group;
-import io.github.djunicode.djcomps.Database.Data.User;
-import io.github.djunicode.djcomps.Database.DataDao.FileDao;
-import io.github.djunicode.djcomps.Database.DataDao.GroupDao;
-import io.github.djunicode.djcomps.Database.DataDao.UserDao;
+import io.github.djunicode.djcomps.database.AppDatabase;
+import io.github.djunicode.djcomps.database.data.Group;
+import io.github.djunicode.djcomps.database.data.User;
+import io.github.djunicode.djcomps.database.datadao.GroupDao;
+import io.github.djunicode.djcomps.database.datadao.UserDao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

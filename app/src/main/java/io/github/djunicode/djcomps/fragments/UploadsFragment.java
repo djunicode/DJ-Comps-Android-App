@@ -1,4 +1,4 @@
-package io.github.djunicode.djcomps.Fragments;
+package io.github.djunicode.djcomps.fragments;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -8,36 +8,30 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.github.djunicode.djcomps.Database.Data.File;
-import io.github.djunicode.djcomps.DeadlineAdapter;
 import io.github.djunicode.djcomps.DocumentsAdapter;
 import io.github.djunicode.djcomps.FileDetails;
-import io.github.djunicode.djcomps.MainActivity;
 import io.github.djunicode.djcomps.OnItemClickListener;
 import io.github.djunicode.djcomps.R;
+import io.github.djunicode.djcomps.database.data.File;
 
 
-public class HomeFragment extends Fragment implements OnItemClickListener {
+public class UploadsFragment extends Fragment implements OnItemClickListener {
+
 
     private RecyclerView recyclerView;
     private DocumentsAdapter adapter;
     private List<File> documents;
 
-    private RecyclerView deadlineView;
-    private DeadlineAdapter deadlineadapter;
-    private List<File> deadlinelist;
 
     @Override
     public void onClick(View view, int position) {
@@ -53,54 +47,23 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
         i.putExtra("downloads",doc.no_of_downloads);
         i.putExtra("type",doc.type);
         i.putExtra("description",doc.description);
-        // i.putExtra("image", doc.getImg());
-        //i.putExtra("subject", doc.getSubject());
         startActivity(i);
     }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
-        View view = inflater.inflate(R.layout.activity_home, container, false);
+        View view = inflater.inflate(R.layout.uploads_fragment, container, false);
 
-        adapter = new DocumentsAdapter(getContext(), documents);
-
-        Button explore = view.findViewById(R.id.uploads);
-        explore.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), MainActivity.class);
-                startActivityForResult(myIntent, 0);
-
-            }
-
-        });
-
-        deadlineView = view.findViewById(R.id.deadline_view);
-        deadlinelist = new ArrayList<>();
-        deadlineadapter = new DeadlineAdapter(getContext(), deadlinelist);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         documents = new ArrayList<>();
-        adapter = new DocumentsAdapter(getContext(), documents);
+        adapter = new DocumentsAdapter(getActivity(), documents);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
-        deadlineView.setLayoutManager(mLayoutManager);
-
-
-
-        //  deadlineView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        deadlineView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        deadlineView.setItemAnimator(new DefaultItemAnimator());
-        deadlineView.setAdapter(deadlineadapter);
-
-        prepareDeadline();
-
-        // getSupportActionBar().setTitle("Horizontal Recycler View");
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
+        recyclerView.setLayoutManager(mLayoutManager);
 
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -108,28 +71,11 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
 
         prepareStaredItems();
 
+        adapter = new DocumentsAdapter(getContext(),documents);
+        adapter.setClickListener(this);
+
+
         return view;
-    }
-
-
-    private void prepareDeadline() {
-
-
-        File ar[];
-        ar=new File[10];
-        ar[0]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","eccf notes",new Date(01/01/1997),"fgdfg");
-        ar[1]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","dlda notes",new Date(01/01/1997),"fgdfg");
-        ar[2]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","cg notes",new Date(01/01/1997),"fgdfg");
-        ar[3]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","sdadf notes",new Date(01/01/1997),"fgdfg");
-        ar[4]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","gdfghgfh notes",new Date(01/01/1997),"fgdfg");
-        ar[5]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","xxx notes",new Date(01/01/1997),"fgdfg");
-
-        for(int i=0;i<6;i++) {
-            deadlinelist.add(ar[i]);
-
-        }
-
-        deadlineadapter.notifyDataSetChanged();
     }
 
 
@@ -148,10 +94,12 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
         ar[5]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","xxx notes",new Date(01/01/1997),"fgdfg");
 
 
-        for(int i=0;i<6;i++) {
+        for(int i=0;i<6;i++)
+        {
             documents.add(ar[i]);
 
         }
+
 
         adapter.notifyDataSetChanged();
     }
@@ -201,4 +149,19 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
+
+
+
+
+
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //you can set the title for your toolbar here for different fragments different titles
+        getActivity().setTitle("Uploads");
+    }
 }
+
+

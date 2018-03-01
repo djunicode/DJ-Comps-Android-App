@@ -1,4 +1,4 @@
-package io.github.djunicode.djcomps.Database.Data;
+package io.github.djunicode.djcomps.database.data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
@@ -8,7 +8,7 @@ import android.arch.persistence.room.TypeConverters;
 
 import java.util.Date;
 
-import io.github.djunicode.djcomps.Database.DateTypeConverter;
+import io.github.djunicode.djcomps.database.DateTypeConverter;
 
 @Entity(tableName = "files",
         foreignKeys = {
