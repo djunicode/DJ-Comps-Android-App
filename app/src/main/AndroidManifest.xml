@@ -23,7 +23,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".FileDetails" />
-        <activity android:name=".UserPage" />
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package io.github.djunicode.djcomps.database.data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "users",
@@ -33,4 +34,5 @@ public class User {
         this.group_id = group_id;
         this.profile_image_url = profile_image_url;
     }
+    
 }

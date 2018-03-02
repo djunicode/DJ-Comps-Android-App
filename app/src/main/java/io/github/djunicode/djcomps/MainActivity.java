@@ -21,6 +21,7 @@ import java.lang.ref.WeakReference;
 
 import io.github.djunicode.djcomps.fragments.FileViewFragment;
 import io.github.djunicode.djcomps.fragments.HomeFragment;
+import io.github.djunicode.djcomps.fragments.UserViewFragment;
 
 import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_ID;
 import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_LOGGED_IN_STATE;
@@ -80,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = FileViewFragment.getInstance(FileViewFragment.Type.Uploads);
                 break;
             case R.id.nav_explore:
-                fragment = FileViewFragment.getInstance(FileViewFragment.Type.Explore);
+                //TODO: this can be both user and file view. There should be option to toggle
+                fragment = UserViewFragment.getInstance();
                 break;
             case R.id.nav_starred:
                 fragment = FileViewFragment.getInstance(FileViewFragment.Type.Stars);
