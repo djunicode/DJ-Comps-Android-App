@@ -6,6 +6,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/fileview_filterbar"
         android:background="#FFFFFF">
 
         <RelativeLayout
@@ -38,13 +39,32 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <include layout="@layout/card_utilization"
+        android:id="@+id/fileview_utilization_card"
+        android:layout_below="@+id/fileview_filterbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fileview_rv"
-        android:layout_marginTop="56dp"
+        android:layout_below="@+id/fileview_utilization_card"
+        android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fileview_upload_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="#FFFFFF"
+        android:src="@drawable/ic_file_upload_black_24dp" />
 
 </RelativeLayout>

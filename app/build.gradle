@@ -48,4 +48,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
+    compile 'com.daimajia.numberprogressbar:library:1.4@aar'
 }

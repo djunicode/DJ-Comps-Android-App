@@ -52,5 +52,10 @@
     <string name="placeholder_digit5">01234</string>
     <string name="placeholder_date">01 Jan 2000</string>
     <string name="placeholder_text">Lorem Ipsum</string>
+    <string name="placeholder_icon_logo">Icon</string>
+
+    <!-- Disk Utilization -->
+    <string name="disk_utilization_label">Disk Utilization</string>
+    <string name="disk_utilization_placeholder">0.0 MB of 0.0 MB used</string>
 
 </resources>

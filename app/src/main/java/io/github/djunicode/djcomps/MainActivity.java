@@ -77,16 +77,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //initializing the fragment object which is selected
         switch (itemId) {
             case R.id.nav_upload:
-                fragment = FileViewFragment.getInstance();
+                fragment = FileViewFragment.getInstance(FileViewFragment.Type.Uploads);
                 break;
             case R.id.nav_explore:
-                fragment = FileViewFragment.getInstance();
+                fragment = FileViewFragment.getInstance(FileViewFragment.Type.Explore);
                 break;
             case R.id.nav_starred:
-                fragment = FileViewFragment.getInstance();
+                fragment = FileViewFragment.getInstance(FileViewFragment.Type.Stars);
                 break;
             case R.id.nav_downloaded:
-                fragment = FileViewFragment.getInstance();
+                fragment = FileViewFragment.getInstance(FileViewFragment.Type.Downloads);
                 break;
             case R.id.nav_home:
                 fragment = new HomeFragment();

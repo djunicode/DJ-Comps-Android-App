@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.apply();
 
                 wrActivity.get().finish();
-                wrActivity.get().startActivity(new Intent(wrContext.get(), HomeFragment.class));
+                wrActivity.get().startActivity(new Intent(wrContext.get(), MainActivity.class));
             }
             else{
                 wrSapET.get().setError(wrContext.get().getString(R.string.error_incorrect_password));
