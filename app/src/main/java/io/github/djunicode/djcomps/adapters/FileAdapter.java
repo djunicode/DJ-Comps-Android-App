@@ -69,7 +69,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
         }
 
 
-        if(file.isDownloaded){
+        if(file.is_downloaded){
             holder.isDownloadedIcon.setVisibility(View.VISIBLE);
         }
         else{

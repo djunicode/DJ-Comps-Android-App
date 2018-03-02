@@ -190,7 +190,7 @@ public class HTTPRequests {
                                         o.getString("type"),
                                         o.getString("name"),
                                         new Date(o.getLong("time added")),
-                                        o.getString("description")
+                                        o.getString("description"), false, false
                                 );
                                 files.add(item);
                             }
@@ -243,7 +243,7 @@ public class HTTPRequests {
                                         o.getString("type"),
                                         o.getString("name"),
                                         new Date(o.getLong("time added")),
-                                        o.getString("description")
+                                        o.getString("description"), false, false
                                 );
                                 files.add(item);
                             }
@@ -298,7 +298,7 @@ public class HTTPRequests {
                                         o.getString("type"),
                                         o.getString("name"),
                                         new Date(o.getLong("time added")),
-                                        o.getString("description")
+                                        o.getString("description"), false, false
                                 );
                                 files.add(item);
                             }
@@ -352,7 +352,7 @@ public class HTTPRequests {
                                         o.getString("type"),
                                         o.getString("name"),
                                         new Date(o.getLong("time added")),
-                                        o.getString("description")
+                                        o.getString("description"), false, false
                                 );
                                 files.add(item);
                             }
@@ -403,7 +403,7 @@ public class HTTPRequests {
                                     o.getString("type"),
                                     o.getString("name"),
                                     new Date(o.getLong("time added")),
-                                    o.getString("description")
+                                    o.getString("description"), false, false
                             );
                             file = item;
 
