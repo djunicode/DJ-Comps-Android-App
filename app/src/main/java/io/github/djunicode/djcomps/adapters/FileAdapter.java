@@ -1,5 +1,7 @@
 package io.github.djunicode.djcomps.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import io.github.djunicode.djcomps.FileDetailsActivity;
 import io.github.djunicode.djcomps.R;
 import io.github.djunicode.djcomps.Utils;
 import io.github.djunicode.djcomps.database.data.File;
@@ -21,10 +24,12 @@ import io.github.djunicode.djcomps.database.data.File;
 public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
 
     private List<File> fileList;
+    private Context context;
     private boolean isHorizontal;
 
-    public FileAdapter(boolean isHorizontal){
+    public FileAdapter(Context context, boolean isHorizontal){
         fileList = new ArrayList<>();
+        this.context = context;
         this.isHorizontal = isHorizontal;
     }
 
@@ -42,7 +47,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        File file = fileList.get(position);
+        final File file = fileList.get(position);
         holder.titleTV.setText(file.name);
 
         SimpleDateFormat dateFormat =  new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
@@ -75,6 +80,15 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
         else{
             holder.isDownloadedIcon.setVisibility(View.GONE);
         }
+
+        holder.fileCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, FileDetailsActivity.class);
+                intent.putExtra(FileDetailsActivity.FILE_INFO_PARCEL, file);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

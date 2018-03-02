@@ -40,7 +40,7 @@ public class FileViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fileview, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.fileview_rv);
-        fileAdapter = new FileAdapter(false);
+        fileAdapter = new FileAdapter(getContext(), false);
 
         View utilCard = view.findViewById(R.id.fileview_utilization_card);
         View filterbar = view.findViewById(R.id.fileview_filterbar);

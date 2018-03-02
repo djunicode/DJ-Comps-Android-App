@@ -10,8 +10,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import io.github.djunicode.djcomps.database.data.File;
 
 public class FileDetailsActivity extends AppCompatActivity {
+
+    public static final String FILE_INFO_PARCEL = "file_parcel";
 
     private Menu mMenu = null;
 
@@ -31,8 +39,11 @@ public class FileDetailsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        CollapsingToolbarLayout ctl = findViewById(R.id.file_detail_collapse_toolbar);
-        ctl.setTitle(getString(R.string.placeholder_text));
+        Bundle parcelBundle = getIntent().getExtras();
+        if (parcelBundle != null) {
+            File file = parcelBundle.getParcelable(FILE_INFO_PARCEL);
+            setFileDetails(file);
+        }
 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -57,6 +68,40 @@ public class FileDetailsActivity extends AppCompatActivity {
 
     }
 
+    private void setFileDetails(File file){
+        CollapsingToolbarLayout ctl = findViewById(R.id.file_detail_collapse_toolbar);
+        ctl.setTitle(file.name);
+
+        SimpleDateFormat dateFormat =  new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+
+        TextView dateHeaderTV = findViewById(R.id.file_detail_date_header);
+        TextView dateTV = findViewById(R.id.file_detail_date);
+        TextView nameTV = findViewById(R.id.file_detail_name);
+        TextView typeTV = findViewById(R.id.file_detail_type);
+        TextView sizeTV = findViewById(R.id.file_detail_size);
+        TextView addedByTV = findViewById(R.id.file_detail_added_by);
+        TextView noStarsTV = findViewById(R.id.file_detail_no_stars);
+        TextView noDownloadsTV = findViewById(R.id.file_detail_no_downloads);
+        TextView descriptionTV = findViewById(R.id.file_detail_description);
+
+        dateHeaderTV.setText(dateFormat.format(file.time_added));
+        dateTV.setText(dateFormat.format(file.time_added));
+        nameTV.setText(file.name);
+        typeTV.setText(file.type);
+
+        //TODO: long to string of file size conversion needed
+        sizeTV.setText(String.valueOf(file.size));
+        //TODO: get user instead of sap id
+        addedByTV.setText(String.valueOf(file.sap_id));
+
+        noStarsTV.setText(String.valueOf(file.no_of_stars));
+        noDownloadsTV.setText(String.valueOf(file.no_of_downloads));
+        descriptionTV.setText(file.description);
+
+        //TODO: shared with section
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.mMenu = menu;
@@ -68,6 +113,9 @@ public class FileDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

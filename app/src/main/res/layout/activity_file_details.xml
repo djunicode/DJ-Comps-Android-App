@@ -56,7 +56,7 @@
                         android:src="@drawable/ic_date_range_black_24dp"/>
 
                     <TextView
-                        android:id="@+id/file_detail_date"
+                        android:id="@+id/file_detail_date_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
