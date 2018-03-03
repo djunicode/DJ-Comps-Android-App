@@ -17,7 +17,7 @@ import java.util.Locale;
 
 import io.github.djunicode.djcomps.database.data.File;
 
-public class FileDetailsActivity extends AppCompatActivity {
+public class FileDetailActivity extends AppCompatActivity {
 
     public static final String FILE_INFO_PARCEL = "file_parcel";
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.djunicode.djcomps.R;
+import io.github.djunicode.djcomps.UserDetailDialog;
 import io.github.djunicode.djcomps.database.data.User;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
@@ -41,7 +42,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = userList.get(position);
+        final User user = userList.get(position);
 
         holder.usernameTV.setText(user.name);
 
@@ -49,6 +50,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.usertypeTV.setText(String.valueOf(user.group_id));
 
         //TODO: fetch image from url
+
+        holder.infoButtonRV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserDetailDialog dialog = new UserDetailDialog(context, user);
+                dialog.show();
+            }
+        });
     }
 
     @Override
@@ -60,12 +69,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         TextView usernameTV, usertypeTV;
         ImageView profileImageIV;
+        View infoButtonRV;
 
         ViewHolder(View itemView) {
             super(itemView);
             usernameTV = itemView.findViewById(R.id.card_user_name);
             usertypeTV = itemView.findViewById(R.id.card_user_type);
             profileImageIV = itemView.findViewById(R.id.card_user_img);
+            infoButtonRV = itemView.findViewById(R.id.user_info_rv_button);
         }
 
     }

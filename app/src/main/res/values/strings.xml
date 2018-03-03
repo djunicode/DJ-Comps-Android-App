@@ -54,6 +54,15 @@
     <string name="placeholder_text">Lorem Ipsum</string>
     <string name="placeholder_text_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Curabitur vitae lacinia lorem, ut mollis ante.</string>
+    <string name="placeholder_text_extra_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nunc id felis dolor. Suspendisse viverra quis sapien finibus maximus.
+        In eros orci, tempus et magna quis, varius vulputate metus.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Donec sed sem dictum, rutrum tortor in, imperdiet odio.
+        Praesent quis massa ut enim gravida elementum.
+        Quisque tempor magna tortor, non porta nunc pellentesque vitae.
+        Sed interdum massa libero. Donec aliquam erat velit, nec fringilla lorem porttitor id.
+        Ut efficitur mi ut orci molestie, eget mattis nibh tincidunt.</string>
     <string name="placeholder_icon_logo">Icon</string>
     <string name="placeholder_file_size">0.0 Kb</string>
 
