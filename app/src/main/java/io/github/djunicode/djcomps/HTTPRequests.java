@@ -25,13 +25,14 @@ import java.util.Map;
 
 import io.github.djunicode.djcomps.adapters.FileAdapter;
 import io.github.djunicode.djcomps.database.data.File;
+import io.github.djunicode.djcomps.database.data.User;
 
 public class HTTPRequests {
 
     public Context context;
-    static File file;
-    String userinfo;
-    List<String> usersinfo;
+    List<File> files;
+    File file;
+    static List<User> users;
 
 
     public static void onLoginRequest(final String sap_id, final String password) {
@@ -47,7 +48,15 @@ public class HTTPRequests {
                         try {
                             JSONObject jsonObject  = new JSONObject(response);
                             JSONObject o = jsonObject.getJSONObject(response);
-                            o.get("token");
+                            User item = new User(
+                                    o.getLong("sap_id"),
+                                    o.getString("bio"),
+                                    o.getString("name"),
+                                    o.getLong("group_id"),
+                                    o.getString("profile_image_url")
+                            );
+
+                            users.add(item);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -62,14 +71,16 @@ public class HTTPRequests {
         );
 
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("sap_id", sap_id);
-        params.put("password", password);
+        if(sap_id!=null)
+            params.put("sap_id", sap_id);
+        if(password!=null)
+            params.put("password", password);
 
         ApplicationController.getInstance().addToRequestQueue(postRequest);
 
     }
 
-    public String getUser(final String sap_id) {
+    public void getUser(final String sap_id) {
 
         String url = "http://localhost";
 
@@ -81,7 +92,15 @@ public class HTTPRequests {
                         try {
                             JSONObject jsonObject  = new JSONObject(response);
                             JSONObject o = jsonObject.getJSONObject(response);
-                            o.get(userinfo);
+                            User item = new User(
+                                    o.getLong("sap_id"),
+                                    o.getString("bio"),
+                                    o.getString("name"),
+                                    o.getLong("group_id"),
+                                    o.getString("profile_image_url")
+                            );
+
+                            users.add(item);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -96,14 +115,14 @@ public class HTTPRequests {
         );
 
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("sap_id", sap_id);
+        if(sap_id!=null)
+            params.put("sap_id", sap_id);
 
         ApplicationController.getInstance().addToRequestQueue(postRequest);
 
-        return userinfo;
     }
 
-    public List getUserByName(final String name) {
+    public void getUserByName(final String name) {
 
         String url = "http://localhost";
 
@@ -115,9 +134,15 @@ public class HTTPRequests {
                             JSONArray array = new JSONArray(response);
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject o = array.getJSONObject(i);
-                                String item = new String();
-                                o.get(item);
-                                usersinfo.add(item);
+                                User item = new User(
+                                        o.getLong("sap_id"),
+                                        o.getString("bio"),
+                                        o.getString("name"),
+                                        o.getLong("group_id"),
+                                        o.getString("profile_image_url")
+                                );
+
+                                users.add(item);
                             }} catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -132,15 +157,16 @@ public class HTTPRequests {
         );
 
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("name", name);
+        if(name!=null)
+            params.put("name", name);
 
         ApplicationController.getInstance().addToRequestQueue(postRequest);
-        return usersinfo;
     }
 
-    public List getUsersByGroup(final String groupname) {
+    public void getUsersByGroup(final String groupname) {
 
         String url = "http://localhost";
+
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -150,9 +176,15 @@ public class HTTPRequests {
                             JSONArray array = new JSONArray(response);
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject o = array.getJSONObject(i);
-                                String item = new String();
-                                o.get(item);
-                                usersinfo.add(item);
+                                User item = new User(
+                                        o.getLong("sap_id"),
+                                        o.getString("bio"),
+                                        o.getString("name"),
+                                        o.getLong("group_id"),
+                                        o.getString("profile_image_url")
+                                );
+
+                                users.add(item);
                             }} catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -167,10 +199,11 @@ public class HTTPRequests {
         );
 
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("group", groupname);
+
+        if(groupname!=null)
+            params.put("group", groupname);
 
         ApplicationController.getInstance().addToRequestQueue(postRequest);
-        return usersinfo;
     }
 
 
@@ -390,7 +423,7 @@ public class HTTPRequests {
 
     }
 
-    public static File getFileInfo(String url, final String file_id)
+    public static void getFileInfo(String url, final String file_id)
     {
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -409,7 +442,6 @@ public class HTTPRequests {
                                     new Date(o.getLong("time added")),
                                     o.getString("description"), false, false
                             );
-                            file = item;
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -433,7 +465,6 @@ public class HTTPRequests {
 
         ApplicationController.getInstance().addToRequestQueue(postRequest);
 
-        return file;
     }
 
 
