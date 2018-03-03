@@ -1,4 +1,4 @@
-package io.github.djunicode.djcomps;
+package io.github.djunicode.djcomps.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import io.github.djunicode.djcomps.R;
 import io.github.djunicode.djcomps.database.data.User;
 
 public class UserDetailDialog extends Dialog {
@@ -23,7 +24,7 @@ public class UserDetailDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.content_user_details);
+        setContentView(R.layout.dialog_user_details);
 
         TextView usernameTV = findViewById(R.id.user_detail_user_name);
         TextView userTypeTV = findViewById(R.id.user_detail_user_type);

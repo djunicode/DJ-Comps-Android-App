@@ -9,13 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import io.github.djunicode.djcomps.R;
-import io.github.djunicode.djcomps.UserDetailDialog;
+import io.github.djunicode.djcomps.dialogs.UserDetailDialog;
 import io.github.djunicode.djcomps.database.data.User;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {

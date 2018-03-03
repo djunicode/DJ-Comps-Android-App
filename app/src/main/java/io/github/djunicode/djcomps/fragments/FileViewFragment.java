@@ -1,5 +1,6 @@
 package io.github.djunicode.djcomps.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,12 +17,16 @@ import java.util.Date;
 import io.github.djunicode.djcomps.R;
 import io.github.djunicode.djcomps.adapters.FileAdapter;
 import io.github.djunicode.djcomps.database.data.File;
+import io.github.djunicode.djcomps.dialogs.FileUploadDialog;
+
+import static android.app.Activity.RESULT_OK;
 
 public class FileViewFragment extends Fragment {
 
     public enum Type { Explore, Uploads, Stars, Downloads }
 
     public static final String FRAGMENT_TYPE_STR = "type_of_fragment";
+    private static final int FILE_PICK_REQUEST_CODE = 3487;
 
     FileAdapter fileAdapter;
 
@@ -55,6 +60,7 @@ public class FileViewFragment extends Fragment {
         }
         else if(fragmentType == Type.Uploads){
             filterbar.setVisibility(View.GONE);
+            uploadFAB.setOnClickListener(uploadButtonOnClick());
         }
 
         setTitle(fragmentType);
@@ -67,6 +73,26 @@ public class FileViewFragment extends Fragment {
         prepareFiles();
 
         return view;
+    }
+
+    private View.OnClickListener uploadButtonOnClick(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                startActivityForResult(intent, FILE_PICK_REQUEST_CODE);
+            }
+        };
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == FILE_PICK_REQUEST_CODE && resultCode == RESULT_OK && getContext() != null){
+            FileUploadDialog dialog = new FileUploadDialog(getContext(), data);
+            dialog.show();
+        }
     }
 
     private void setTitle(Type fragmentType){

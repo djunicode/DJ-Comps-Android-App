@@ -81,5 +81,12 @@
     <string name="file_detail_no_of_downloads">No of Downloads</string>
     <string name="file_detail_shared_with">Shared With</string>
 
+    <!-- File upload categories -->
+    <string-array name="file_categories">
+        <item>Image</item>
+        <item>Video</item>
+        <item>Document</item>
+    </string-array>
+
 
 </resources>
