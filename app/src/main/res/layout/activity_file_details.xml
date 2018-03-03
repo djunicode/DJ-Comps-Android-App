@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
-            android:background="#E0E0E0"
+            android:background="@color/wet_asphalt_300"
             app:expandedTitleTextAppearance="@style/CollapsedAppBar"
             app:expandedTitleMarginBottom="36dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -37,7 +37,7 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="68dp"
-                    android:background="#757575"
+                    android:background="@color/wet_asphalt_400"
                     android:layout_below="@id/file_detail_type_image"/>
 
                 <LinearLayout

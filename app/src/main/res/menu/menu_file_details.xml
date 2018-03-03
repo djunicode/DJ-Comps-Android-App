@@ -4,17 +4,16 @@
 
 
     <item
-        android:id="@+id/file_detail_menu_start"
-        android:title="Star"
-        android:checked="false"
-        android:checkable="true"
-        android:icon="@drawable/ic_star_black_24dp"
+        android:id="@+id/file_detail_menu_action"
+        android:title="Action"
+        android:icon="@drawable/ic_file_download_white_24dp"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/file_detail_menu_action"
-        android:title="Action"
-        android:icon="@drawable/ic_file_download_black_24dp"
+        android:id="@+id/file_detail_menu_start"
+        android:title="Star"
+        android:checkable="true"
+        android:icon="@drawable/ic_star_white_24dp"
         app:showAsAction="always"/>
 
 

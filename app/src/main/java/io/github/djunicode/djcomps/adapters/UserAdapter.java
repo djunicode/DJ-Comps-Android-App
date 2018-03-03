@@ -49,7 +49,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.usertypeTV.setText(String.valueOf(user.group_id));
 
         //TODO: fetch image from url
-        Picasso.with(context).load(R.drawable.ic_person_black_24dp).into(holder.profileImageIV);
     }
 
     @Override

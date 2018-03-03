@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="wet_asphalt_300">#FF809eba</color>
+    <color name="wet_asphalt_400">#FF4a6a88</color>
     <color name="wet_asphalt_500">#FF34495E</color>
     <color name="wet_asphalt_700">#FF212E3B</color>
     <color name="turquoise_500">#FF1ABC9C</color>
