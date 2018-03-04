@@ -5,9 +5,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.AutoTransition;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,6 +34,7 @@ public class UserViewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_userview, container, false);
+        setHasOptionsMenu(true);
 
         FragmentActivity act = getActivity();
         if(act != null) getActivity().setTitle("Users");
@@ -76,6 +83,32 @@ public class UserViewFragment extends Fragment {
 
         for(int i=0; i<2; i++){
             userAdapter.addUser(ar[i]);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_explore, menu);
+        menu.getItem(0).setIcon(R.drawable.ic_folder_open_white_24dp);
+        menu.getItem(0).setTitle("Explore Files");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_explore_by:
+                FragmentManager fragmentManager = getFragmentManager();
+                if(fragmentManager != null){
+                    fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    Fragment fragment = FileViewFragment.getInstance(FileViewFragment.Type.Explore);
+                    fragment.setEnterTransition(new AutoTransition());
+                    transaction.replace(R.id.content_frame, fragment);
+                    transaction.commit();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

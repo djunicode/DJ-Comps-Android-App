@@ -4,10 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.transition.AutoTransition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.Date;
 
@@ -24,6 +29,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        FragmentActivity act = getActivity();
+        if(act != null) getActivity().setTitle("Home");
+
         recentFileAdapter = new FileAdapter(getContext(), true);
         popularFileAdapter = new FileAdapter(getContext(), true);
 
@@ -32,6 +40,41 @@ public class HomeFragment extends Fragment {
 
         recentFileRV.setAdapter(recentFileAdapter);
         popularFileRV.setAdapter(popularFileAdapter);
+
+        Button recentMoreButton = view.findViewById(R.id.recent_uploads_more_button);
+        Button popularMoreButton = view.findViewById(R.id.popular_uploads_more_button);
+
+        recentMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: pass argument to fragment to sort by date
+                FragmentManager fragmentManager = getFragmentManager();
+                if(fragmentManager != null){
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    Fragment fragment = FileViewFragment.getInstance(FileViewFragment.Type.Explore);
+                    fragment.setEnterTransition(new AutoTransition());
+                    transaction.replace(R.id.content_frame, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            }
+        });
+
+        popularMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: pass argument to fragment to sort by popularity
+                FragmentManager fragmentManager = getFragmentManager();
+                if(fragmentManager != null){
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    Fragment fragment = FileViewFragment.getInstance(FileViewFragment.Type.Explore);
+                    fragment.setEnterTransition(new AutoTransition());
+                    transaction.replace(R.id.content_frame, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            }
+        });
 
         prepareRecentItems();
         preparePopularItems();

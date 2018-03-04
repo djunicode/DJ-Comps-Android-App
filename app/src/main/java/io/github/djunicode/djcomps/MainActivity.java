@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = FileViewFragment.getInstance(FileViewFragment.Type.Uploads);
                 break;
             case R.id.nav_explore:
-                //TODO: this can be both user and file view. There should be option to toggle
-                fragment = UserViewFragment.getInstance();
+                fragment = FileViewFragment.getInstance(FileViewFragment.Type.Explore);
                 break;
             case R.id.nav_starred:
                 fragment = FileViewFragment.getInstance(FileViewFragment.Type.Stars);

@@ -32,6 +32,7 @@
 
 
                 <Button
+                    android:id="@+id/recent_uploads_more_button"
                     style="@style/BorderlessButtonWrapped"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,6 +70,7 @@
 
 
                 <Button
+                    android:id="@+id/popular_uploads_more_button"
                     style="@style/BorderlessButtonWrapped"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

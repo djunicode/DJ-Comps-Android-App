@@ -8,9 +8,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.AutoTransition;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -60,6 +66,8 @@ public class FileViewFragment extends Fragment {
         Type fragmentType = (Type) (argBundle != null ? argBundle.getSerializable(FRAGMENT_TYPE_STR) : Type.Explore);
 
         setTitle(fragmentType);
+
+        if(fragmentType == Type.Explore) setHasOptionsMenu(true);
 
         if(fragmentType == Type.Explore || fragmentType == Type.Stars || fragmentType == Type.Downloads){
             utilCard.setVisibility(View.GONE);
@@ -189,6 +197,32 @@ public class FileViewFragment extends Fragment {
             fileAdapter.addFile(ar[i]);
         }
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_explore, menu);
+        menu.getItem(0).setIcon(R.drawable.ic_person_outline_white_24dp);
+        menu.getItem(0).setTitle("Explore by users");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_explore_by:
+                FragmentManager fragmentManager = getFragmentManager();
+                if(fragmentManager != null){
+                    fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    Fragment fragment = UserViewFragment.getInstance();
+                    fragment.setEnterTransition(new AutoTransition());
+                    transaction.replace(R.id.content_frame, fragment);
+                    transaction.commit();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
