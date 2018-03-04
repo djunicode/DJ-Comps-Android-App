@@ -1,5 +1,7 @@
 package io.github.djunicode.djcomps.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.Date;
 
@@ -29,6 +32,7 @@ public class FileViewFragment extends Fragment {
     private static final int FILE_PICK_REQUEST_CODE = 3487;
 
     FileAdapter fileAdapter;
+    Button sortByButton;
 
     public static FileViewFragment getInstance(Type fragmentType) {
         FileViewFragment fragment = new FileViewFragment();
@@ -50,9 +54,12 @@ public class FileViewFragment extends Fragment {
         View utilCard = view.findViewById(R.id.fileview_utilization_card);
         View filterbar = view.findViewById(R.id.fileview_filterbar);
         View uploadFAB = view.findViewById(R.id.fileview_upload_fab);
+        sortByButton = view.findViewById(R.id.file_view_sort_by);
 
         Bundle argBundle = getArguments();
         Type fragmentType = (Type) (argBundle != null ? argBundle.getSerializable(FRAGMENT_TYPE_STR) : Type.Explore);
+
+        setTitle(fragmentType);
 
         if(fragmentType == Type.Explore || fragmentType == Type.Stars || fragmentType == Type.Downloads){
             utilCard.setVisibility(View.GONE);
@@ -63,12 +70,13 @@ public class FileViewFragment extends Fragment {
             uploadFAB.setOnClickListener(uploadButtonOnClick());
         }
 
-        setTitle(fragmentType);
+        sortByButton.setOnClickListener(sortByButtonOnClick());
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(fileAdapter);
+
 
         prepareFiles();
 
@@ -105,6 +113,63 @@ public class FileViewFragment extends Fragment {
         }
         FragmentActivity act = getActivity();
         if(act != null) getActivity().setTitle(title);
+    }
+
+    private View.OnClickListener sortByButtonOnClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] sortByCategories = {
+                        "Name: A → Z",
+                        "Name: Z → A",
+                        "Most Recent",
+                        "Least Recent",
+                        "Most Popular",
+                        "Least Popular"
+
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setItems(sortByCategories, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position) {
+                        boolean isAscending = true;
+                        String sortBy;
+                        switch (position){
+                            case 0:
+                                sortByButton.setText("Name ↑");
+                                sortBy = "name";
+                                break;
+                            case 1:
+                                sortByButton.setText("Name ↓");
+                                isAscending = false;
+                                sortBy = "name";
+                                break;
+                            case 2:
+                                sortByButton.setText("Date ↑");
+                                sortBy = "date";
+                                break;
+                            case 3:
+                                sortByButton.setText("Date ↓");
+                                isAscending = false;
+                                sortBy = "date";
+                                break;
+                            case 4:
+                                sortByButton.setText("Popular ↑");
+                                sortBy = "popularity";
+                                break;
+                            case 5:
+                                sortByButton.setText("Popular ↓");
+                                isAscending = false;
+                                sortBy = "popularity";
+                                break;
+                        }
+
+                        //TODO: make api call to update recycler view using isAscending and sortBy values
+                    }
+                });
+                builder.create().show();
+            }
+        };
     }
 
 
