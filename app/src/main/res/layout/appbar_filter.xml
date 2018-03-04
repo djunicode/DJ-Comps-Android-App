@@ -37,6 +37,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/file_view_filter"
                 android:layout_width="32dp"
                 android:layout_height="match_parent"
                 android:gravity="center"

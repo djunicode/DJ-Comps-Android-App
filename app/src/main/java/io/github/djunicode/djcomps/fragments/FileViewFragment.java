@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import io.github.djunicode.djcomps.R;
@@ -40,6 +41,15 @@ public class FileViewFragment extends Fragment {
     FileAdapter fileAdapter;
     Button sortByButton;
 
+    private final String[] userCategories = {
+            "Teachers",
+            "SE-A", "SE-B",
+            "TE-A", "TE-B",
+            "BE-A", "BE-B"
+    };
+
+    private boolean[] selectedCategories;
+
     public static FileViewFragment getInstance(Type fragmentType) {
         FileViewFragment fragment = new FileViewFragment();
 
@@ -54,6 +64,9 @@ public class FileViewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fileview, container, false);
 
+        this.selectedCategories = new boolean[userCategories.length];
+        Arrays.fill(this.selectedCategories, false);
+
         RecyclerView recyclerView = view.findViewById(R.id.fileview_rv);
         fileAdapter = new FileAdapter(getContext(), false);
 
@@ -67,7 +80,11 @@ public class FileViewFragment extends Fragment {
 
         setTitle(fragmentType);
 
-        if(fragmentType == Type.Explore) setHasOptionsMenu(true);
+        if(fragmentType == Type.Explore) {
+            setHasOptionsMenu(true);
+            View filterButtonView = view.findViewById(R.id.file_view_filter);
+            filterButtonView.setOnClickListener(filterButtonOnClick());
+        }
 
         if(fragmentType == Type.Explore || fragmentType == Type.Stars || fragmentType == Type.Downloads){
             utilCard.setVisibility(View.GONE);
@@ -173,6 +190,38 @@ public class FileViewFragment extends Fragment {
                         }
 
                         //TODO: make api call to update recycler view using isAscending and sortBy values
+                    }
+                });
+                builder.create().show();
+            }
+        };
+    }
+
+    private View.OnClickListener filterButtonOnClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final boolean[] selectedCategoriesTemp = selectedCategories.clone();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Show files belonging to ");
+                builder.setMultiChoiceItems(userCategories, selectedCategoriesTemp, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        selectedCategoriesTemp[i] = b;
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        selectedCategories = selectedCategoriesTemp;
+                        //TODO: make api call and update recycler view here
+                        dialogInterface.dismiss();
                     }
                 });
                 builder.create().show();

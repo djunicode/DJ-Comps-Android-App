@@ -1,5 +1,7 @@
 package io.github.djunicode.djcomps.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Arrays;
+
 import io.github.djunicode.djcomps.R;
 import io.github.djunicode.djcomps.adapters.UserAdapter;
 import io.github.djunicode.djcomps.database.data.User;
@@ -27,14 +31,27 @@ public class UserViewFragment extends Fragment {
     UserAdapter userAdapter;
     Button sortByButton;
 
+    private final String[] userCategories = {
+            "Teachers",
+            "SE-A", "SE-B",
+            "TE-A", "TE-B",
+            "BE-A", "BE-B"
+    };
+
+    private boolean[] selectedCategories;
+
     public static UserViewFragment getInstance() {
         return new UserViewFragment();
     }
 
-    @Override
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_userview, container, false);
         setHasOptionsMenu(true);
+
+        //TODO: save selectedCategories and get back on fragment is replaced back after back button is pressed.
+        this.selectedCategories = new boolean[userCategories.length];
+        Arrays.fill(this.selectedCategories, false);
 
         FragmentActivity act = getActivity();
         if(act != null) getActivity().setTitle("Users");
@@ -44,6 +61,9 @@ public class UserViewFragment extends Fragment {
 
         sortByButton = view.findViewById(R.id.file_view_sort_by);
         sortByButton.setOnClickListener(sortByButtonOnClick());
+
+        View filterButtonView = view.findViewById(R.id.file_view_filter);
+        filterButtonView.setOnClickListener(filterButtonOnClick());
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
 
@@ -69,6 +89,38 @@ public class UserViewFragment extends Fragment {
                     view.setTag("ascending");
                 }
                 //TODO: also make api call to get users in ascending or descending order
+            }
+        };
+    }
+
+    private View.OnClickListener filterButtonOnClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final boolean[] selectedCategoriesTemp = selectedCategories.clone();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Show user belonging to ");
+                builder.setMultiChoiceItems(userCategories, selectedCategoriesTemp, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        selectedCategoriesTemp[i] = b;
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        selectedCategories = selectedCategoriesTemp;
+                        //TODO: make api call and update recycler view here
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.create().show();
             }
         };
     }
