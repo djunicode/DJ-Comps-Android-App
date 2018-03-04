@@ -12,4 +12,81 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="error_invalid_sap">This SAP id is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">Username or password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_account_missing">No such account exist</string>
+    <string name="login_authenticating">Authenticating</string>
+    <string name="login_logging_in">Logging In</string>
+
+    <!-- Login View strings -->
+    <string name="login_welcome_text">Hi there! Login to continue</string>
+    <string name="login_sap_edittext">SAP</string>
+    <string name="login_password_edittext">Password</string>
+    <string name="login_button_text">Login</string>
+
+    <!-- Image content description -->
+    <string name="background_image">Background Image</string>
+    <string name="logo_image">Logo Image</string>
+
+    <!-- Navigation drawer -->
+    <string name="nav_home">Home</string>
+    <string name="nav_cloud_share">Cloud Share</string>
+    <string name="nav_explore">Explore</string>
+    <string name="nav_uploads">Uploads</string>
+    <string name="nav_stars">Stars</string>
+    <string name="nav_downloads">Downloads</string>
+    <string name="nav_misc">Misc</string>
+    <string name="nav_logout">Logout</string>
+
+    <!-- Placeholder text -->
+    <string name="placeholder_char">P</string>
+    <string name="placeholder_digit">0</string>
+    <string name="placeholder_digit3">012</string>
+    <string name="placeholder_digit5">01234</string>
+    <string name="placeholder_date">01 Jan 2000</string>
+    <string name="placeholder_text">Lorem Ipsum</string>
+    <string name="placeholder_text_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Curabitur vitae lacinia lorem, ut mollis ante.</string>
+    <string name="placeholder_text_extra_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nunc id felis dolor. Suspendisse viverra quis sapien finibus maximus.
+        In eros orci, tempus et magna quis, varius vulputate metus.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Donec sed sem dictum, rutrum tortor in, imperdiet odio.
+        Praesent quis massa ut enim gravida elementum.
+        Quisque tempor magna tortor, non porta nunc pellentesque vitae.
+        Sed interdum massa libero. Donec aliquam erat velit, nec fringilla lorem porttitor id.
+        Ut efficitur mi ut orci molestie, eget mattis nibh tincidunt.</string>
+    <string name="placeholder_icon_logo">Icon</string>
+    <string name="placeholder_file_size">0.0 Kb</string>
+
+    <!-- Disk Utilization -->
+    <string name="disk_utilization_label">Disk Utilization</string>
+    <string name="disk_utilization_placeholder">0.0 MB of 0.0 MB used</string>
+
+    <!--File details -->
+    <string name="file_detail_name">File Name</string>
+    <string name="file_detail_type">File Type</string>
+    <string name="file_detail_size">File Size</string>
+    <string name="file_detail_added">File Added</string>
+    <string name="file_detail_added_by">File Added By</string>
+    <string name="file_detail_description">File Description</string>
+    <string name="file_detail_no_of_stars">No of Stars</string>
+    <string name="file_detail_no_of_downloads">No of Downloads</string>
+    <string name="file_detail_shared_with">Shared With</string>
+
+    <!-- File upload categories -->
+    <string-array name="file_categories">
+        <item>Image</item>
+        <item>Video</item>
+        <item>Document</item>
+    </string-array>
+
+
 </resources>
