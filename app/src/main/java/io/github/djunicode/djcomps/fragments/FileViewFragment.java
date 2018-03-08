@@ -24,6 +24,7 @@ import android.widget.Button;
 import java.util.Arrays;
 import java.util.Date;
 
+import io.github.djunicode.djcomps.HTTPRequests;
 import io.github.djunicode.djcomps.R;
 import io.github.djunicode.djcomps.adapters.FileAdapter;
 import io.github.djunicode.djcomps.database.data.File;
@@ -157,39 +158,40 @@ public class FileViewFragment extends Fragment {
                 builder.setItems(sortByCategories, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position) {
-                        boolean isAscending = true;
-                        String sortBy;
+                        String sortOrder = "ascending";
+                        String sortBy = null;
                         switch (position){
                             case 0:
                                 sortByButton.setText("Name ↑");
-                                sortBy = "name";
                                 break;
                             case 1:
                                 sortByButton.setText("Name ↓");
-                                isAscending = false;
-                                sortBy = "name";
+                                sortOrder = "descending";
                                 break;
                             case 2:
                                 sortByButton.setText("Date ↑");
-                                sortBy = "date";
+                                sortOrder = "descending";
+                                sortBy = "recent";
                                 break;
                             case 3:
                                 sortByButton.setText("Date ↓");
-                                isAscending = false;
-                                sortBy = "date";
+                                sortBy = "recent";
                                 break;
                             case 4:
                                 sortByButton.setText("Popular ↑");
+                                sortOrder = "descending";
                                 sortBy = "popularity";
                                 break;
                             case 5:
                                 sortByButton.setText("Popular ↓");
-                                isAscending = false;
                                 sortBy = "popularity";
                                 break;
                         }
 
                         //TODO: make api call to update recycler view using isAscending and sortBy values
+                        fileAdapter.clear();
+                        HTTPRequests.getAllFiles(fileAdapter, "http://djunicode.pythonanywhere/file", "0", "5", sortBy, sortOrder);
+
                     }
                 });
                 builder.create().show();
@@ -232,7 +234,7 @@ public class FileViewFragment extends Fragment {
 
     private void prepareFiles() {
 
-        File ar[];
+        /*File ar[];
         ar=new File[10];
 
         ar[0]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","eccf notes",new Date(01/01/1997),"fgdfg", false, false);
@@ -244,7 +246,10 @@ public class FileViewFragment extends Fragment {
 
         for(int i=0; i<6; i++){
             fileAdapter.addFile(ar[i]);
-        }
+        }*/
+
+        fileAdapter.clear();
+        HTTPRequests.getAllFiles(fileAdapter, "http://djunicode.pythonanywhere/file", "0", "5", null, null);
 
     }
 

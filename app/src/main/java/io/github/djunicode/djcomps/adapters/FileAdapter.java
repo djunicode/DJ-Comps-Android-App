@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.github.djunicode.djcomps.FileDetailActivity;
+import io.github.djunicode.djcomps.HTTPRequests;
 import io.github.djunicode.djcomps.R;
 import io.github.djunicode.djcomps.Utils;
 import io.github.djunicode.djcomps.database.data.File;
@@ -84,9 +85,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
         holder.fileCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, FileDetailActivity.class);
-                intent.putExtra(FileDetailActivity.FILE_INFO_PARCEL, file);
-                context.startActivity(intent);
+                HTTPRequests.loadFileData(file.file_id.toString(), context);
             }
         });
     }
@@ -121,5 +120,10 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
 
         }
 
+    }
+
+    public void clear()
+    {
+        fileList.clear();
     }
 }
