@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import java.util.Date;
 
+import io.github.djunicode.djcomps.HTTPRequests;
 import io.github.djunicode.djcomps.adapters.FileAdapter;
 import io.github.djunicode.djcomps.database.data.File;
 import io.github.djunicode.djcomps.R;
@@ -84,7 +85,7 @@ public class HomeFragment extends Fragment {
 
     private void prepareRecentItems() {
 
-        File ar[];
+        /*File ar[];
         ar=new File[10];
 
         ar[0]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","eccf notes",new Date(01/01/1997),"fgdfg", false, false);
@@ -96,13 +97,15 @@ public class HomeFragment extends Fragment {
 
         for(int i=0; i<6; i++){
             recentFileAdapter.addFile(ar[i]);
-        }
+        }*/
+
+        HTTPRequests.getAllFiles(recentFileAdapter, "http://djunicode.pythonanywhere/file", "0", "5", "recent", "descending");
 
     }
 
     private void preparePopularItems() {
 
-        File ar[];
+        /*File ar[];
         ar=new File[10];
         ar[0]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","eccf notes",new Date(01/01/1997),"fgdfg", false, false);
         ar[1]= new File(new Long(1234567891),new Long(6122),new Long(21),5,4,"pdf","dlda notes",new Date(01/01/1997),"fgdfg", false, false);
@@ -113,7 +116,9 @@ public class HomeFragment extends Fragment {
 
         for(int i=0; i<6; i++){
             popularFileAdapter.addFile(ar[i]);
-        }
+        }*/
+
+        HTTPRequests.getAllFiles(recentFileAdapter, "http://djunicode.pythonanywhere/file", "0", "5", "popularity", "descending");
 
     }
 
