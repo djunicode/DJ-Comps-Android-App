@@ -3,6 +3,8 @@ package io.github.djunicode.djcomps;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -14,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -484,5 +487,46 @@ public class HTTPRequests {
         };
 
         ApplicationController.getInstance().addToRequestQueue(postRequest);
+    }
+
+    public static void uploadImage(final Bitmap bitmap, Context context)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Loading data...");
+        progressDialog.show();
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, "http://djunicode.pythonanywhere.com/file/upload",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Log.d("Error.Response", error.getMessage());
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("file", getStringImage(bitmap));
+                return params;
+            }
+        };
+
+        ApplicationController.getInstance().addToRequestQueue(postRequest);
+    }
+
+    public static String getStringImage(Bitmap bm)
+    {
+        ByteArrayOutputStream ba = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG,100,ba);
+        byte[] imagebyte = ba.toByteArray();
+        String encode = Base64.encodeToString(imagebyte, Base64.DEFAULT);
+        return encode;
     }
 }
