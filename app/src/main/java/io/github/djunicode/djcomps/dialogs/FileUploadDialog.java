@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -14,15 +16,20 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.IOException;
+
+import io.github.djunicode.djcomps.HTTPRequests;
 import io.github.djunicode.djcomps.R;
 
 public class FileUploadDialog extends Dialog {
 
     private EditText filenameET, descriptionET;
     private Intent fileIntent;
+    private Context context;
 
     public FileUploadDialog(@NonNull Context context, Intent fileData) {
         super(context);
+        this.context = context;
         this.fileIntent = fileData;
     }
 
@@ -61,6 +68,15 @@ public class FileUploadDialog extends Dialog {
 
                 if(fieldsVerified){
                     //TODO: upload file here with name and description
+
+                    Uri filepath = fileIntent.getData();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), filepath);
+                        HTTPRequests.uploadImage(bitmap, context);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     dismiss();
                 }
 
