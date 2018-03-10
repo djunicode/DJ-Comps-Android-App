@@ -18,22 +18,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.github.djunicode.djcomps.Database.Data.File;
-import io.github.djunicode.djcomps.Database.Data.User;
+import io.github.djunicode.djcomps.adapters.UserAdapter;
+import io.github.djunicode.djcomps.database.data.File;
+import io.github.djunicode.djcomps.database.data.User;
 
 public class HTTPRequests {
 
     public Context context;
     List<File> files;
     File file;
-    static List<User> users;
 
 
-    public static void onLoginRequest(final String sap_id, final String password) {
+    public static void onLoginRequest(final String sap_id, final String password, final UserAdapter adapter) {
 
-        String url = "http://127.0.0.1:8000";
-
-
+        String url = "http://djunicode.pythonanywhere.com/login";
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -50,7 +48,7 @@ public class HTTPRequests {
                                     o.getString("profile_image_url")
                             );
 
-                            users.add(item);
+                            adapter.addUser(item);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -65,16 +63,14 @@ public class HTTPRequests {
         );
 
         HashMap<String, String> params = new HashMap<String, String>();
-        if(sap_id!=null)
-            params.put("sap_id", sap_id);
-        if(password!=null)
-            params.put("password", password);
+        params.put("sap_id", sap_id);
+        params.put("password", password);
 
         ApplicationController.getInstance().addToRequestQueue(postRequest);
 
     }
 
-    public void getUser(final String sap_id) {
+    public static void getUser(final String sap_id, final UserAdapter adapter) {
 
         String url = "http://localhost";
 
@@ -94,7 +90,7 @@ public class HTTPRequests {
                                     o.getString("profile_image_url")
                             );
 
-                            users.add(item);
+                            adapter.addUser(item);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -116,7 +112,7 @@ public class HTTPRequests {
 
     }
 
-    public void getUserByName(final String name) {
+    public static void getUserByName(final String name, final UserAdapter adapter) {
 
         String url = "http://localhost";
 
@@ -136,7 +132,7 @@ public class HTTPRequests {
                                         o.getString("profile_image_url")
                                 );
 
-                                users.add(item);
+                                adapter.addUser(item);
                             }} catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -157,10 +153,9 @@ public class HTTPRequests {
         ApplicationController.getInstance().addToRequestQueue(postRequest);
     }
 
-    public void getUsersByGroup(final String groupname) {
+    public static void getUsersByGroup(final String groupname, final UserAdapter adapter) {
 
         String url = "http://localhost";
-
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -178,7 +173,7 @@ public class HTTPRequests {
                                         o.getString("profile_image_url")
                                 );
 
-                                users.add(item);
+                                adapter.addUser(item);
                             }} catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -193,7 +188,6 @@ public class HTTPRequests {
         );
 
         HashMap<String, String> params = new HashMap<String, String>();
-
         if(groupname!=null)
             params.put("group", groupname);
 
@@ -222,7 +216,7 @@ public class HTTPRequests {
                                         o.getString("type"),
                                         o.getString("name"),
                                         new Date(o.getLong("time added")),
-                                        o.getString("description")
+                                        o.getString("description"), false, false
                                 );
                                 files.add(item);
                             }
@@ -275,7 +269,7 @@ public class HTTPRequests {
                                         o.getString("type"),
                                         o.getString("name"),
                                         new Date(o.getLong("time added")),
-                                        o.getString("description")
+                                        o.getString("description"), false, false
                                 );
                                 files.add(item);
                             }
@@ -330,7 +324,7 @@ public class HTTPRequests {
                                         o.getString("type"),
                                         o.getString("name"),
                                         new Date(o.getLong("time added")),
-                                        o.getString("description")
+                                        o.getString("description"), false, false
                                 );
                                 files.add(item);
                             }
@@ -384,7 +378,7 @@ public class HTTPRequests {
                                         o.getString("type"),
                                         o.getString("name"),
                                         new Date(o.getLong("time added")),
-                                        o.getString("description")
+                                        o.getString("description"), false, false
                                 );
                                 files.add(item);
                             }
@@ -435,7 +429,7 @@ public class HTTPRequests {
                                     o.getString("type"),
                                     o.getString("name"),
                                     new Date(o.getLong("time added")),
-                                    o.getString("description")
+                                    o.getString("description"), false, false
                             );
                             file = item;
 
