@@ -1,19 +1,32 @@
 package io.github.djunicode.djcomps;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import io.github.djunicode.djcomps.database.data.File;
 
@@ -120,4 +133,6 @@ public class FileDetailActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }
