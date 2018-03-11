@@ -72,7 +72,7 @@ public class FileUploadDialog extends Dialog {
                     Uri filepath = fileIntent.getData();
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), filepath);
-                        HTTPRequests.uploadImage(bitmap, context);
+                        new HTTPRequests(context).uploadImage(bitmap, context);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

@@ -85,7 +85,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
         holder.fileCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HTTPRequests.loadFileData(file.file_id.toString(), context);
+                new HTTPRequests(context).loadFileData(file.file_id.toString(), context);
             }
         });
     }

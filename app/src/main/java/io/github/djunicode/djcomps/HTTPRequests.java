@@ -8,9 +8,13 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,9 +22,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import io.github.djunicode.djcomps.adapters.FileAdapter;
@@ -30,53 +32,36 @@ import io.github.djunicode.djcomps.database.data.User;
 
 public class HTTPRequests {
 
-    public Context context;
-    List<File> files;
-    File file;
+    private static RequestQueue reqQueue;
 
-
-    public static void onLoginRequest(final String sap_id, final String password, final UserAdapter adapter) {
-
-        String url = "http://djunicode.pythonanywhere.com/login";
-
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject  = new JSONObject(response);
-                            JSONObject o = jsonObject.getJSONObject(response);
-                            User item = new User(
-                                    o.getLong("sap_id"),
-                                    o.getString("bio"),
-                                    o.getString("name"),
-                                    o.getLong("group_id"),
-                                    o.getString("profile_image_url")
-                            );
-
-                            adapter.addUser(item);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", error.getMessage());
-                    }
-                }
-        );
-
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("sap_id", sap_id);
-        params.put("password", password);
-
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
-
+    public HTTPRequests(Context context) {
+        if(reqQueue == null)
+            reqQueue = Volley.newRequestQueue(context);
     }
 
-    public static void getUser(final String sap_id, final UserAdapter adapter) {
+
+    RequestFuture<JSONObject> onLoginRequest(final String sap_id, final String password) {
+
+        RequestFuture<JSONObject> futureRequest = RequestFuture.newFuture();
+        String url = "http://192.168.0.205:8888/login";
+
+        JsonObjectRequest jsonPostRequest = new JsonObjectRequest(Request.Method.POST, url,
+                new JSONObject(), futureRequest, futureRequest){
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("sap_id", sap_id);
+                params.put("password", password);
+                return params;
+            }
+        };
+
+        reqQueue.add(jsonPostRequest);
+        return futureRequest;
+    }
+
+    public void getUser(final String sap_id, final UserAdapter adapter) {
 
         String url = "http://localhost";
 
@@ -110,15 +95,15 @@ public class HTTPRequests {
                 }
         );
 
-        HashMap<String, String> params = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<>();
         if(sap_id!=null)
             params.put("sap_id", sap_id);
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
+        reqQueue.add(postRequest);
 
     }
 
-    public static void getUserByName(final String name, final UserAdapter adapter) {
+    public void getUserByName(final String name, final UserAdapter adapter) {
 
         String url = "http://localhost";
 
@@ -152,14 +137,14 @@ public class HTTPRequests {
                 }
         );
 
-        HashMap<String, String> params = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<>();
         if(name!=null)
             params.put("name", name);
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
+        reqQueue.add(postRequest);
     }
 
-    public static void getUsersByGroup(final String groupname, final UserAdapter adapter) {
+    public void getUsersByGroup(final String groupname, final UserAdapter adapter) {
 
         String url = "http://localhost";
 
@@ -193,15 +178,15 @@ public class HTTPRequests {
                 }
         );
 
-        HashMap<String, String> params = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<>();
         if(groupname!=null)
             params.put("group", groupname);
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
+        reqQueue.add(postRequest);
     }
 
 
-    public static void getAllFiles(final FileAdapter adapter, String url, final String start_idx, final String end_idx, final String sort_by, final String sort_order) {
+    public void getAllFiles(final FileAdapter adapter, String url, final String start_idx, final String end_idx, final String sort_by, final String sort_order) {
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -238,7 +223,7 @@ public class HTTPRequests {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("start_idx", start_idx);
                 params.put("end_idx", end_idx);
                 if(sort_by != null)
@@ -250,11 +235,10 @@ public class HTTPRequests {
             }
         };
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
-
+        reqQueue.add(postRequest);
     }
 
-    public static void getAllFilesByUser(final FileAdapter adapter, String url, final String start_idx, final String end_idx, final String sap_id, final String sort_by, final String sort_order) {
+    public void getAllFilesByUser(final FileAdapter adapter, String url, final String start_idx, final String end_idx, final String sap_id, final String sort_by, final String sort_order) {
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -291,7 +275,7 @@ public class HTTPRequests {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("start_idx", start_idx);
                 params.put("end_idx", end_idx);
                 params.put("sap_id", sap_id);
@@ -304,11 +288,10 @@ public class HTTPRequests {
             }
         };
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
-
+        reqQueue.add(postRequest);
     }
 
-    public static void getAllFilesByName(final FileAdapter adapter, String url, final String start_idx, final String end_idx, final String name, final String sort_by, final String sort_order) {
+    public void getAllFilesByName(final FileAdapter adapter, String url, final String start_idx, final String end_idx, final String name, final String sort_by, final String sort_order) {
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -346,7 +329,7 @@ public class HTTPRequests {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("start_idx", start_idx);
                 params.put("end_idx", end_idx);
                 params.put("name", name);
@@ -359,11 +342,10 @@ public class HTTPRequests {
             }
         };
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
-
+        reqQueue.add(postRequest);
     }
 
-    public static void getAllFilesByType(final FileAdapter adapter, String url, final String start_idx, final String end_idx, final String type, final String sort_by, final String sort_order) {
+    public void getAllFilesByType(final FileAdapter adapter, String url, final String start_idx, final String end_idx, final String type, final String sort_by, final String sort_order) {
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -400,7 +382,7 @@ public class HTTPRequests {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("start_idx", start_idx);
                 params.put("end_idx", end_idx);
                 params.put("type", type);
@@ -413,11 +395,10 @@ public class HTTPRequests {
             }
         };
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
-
+        reqQueue.add(postRequest);
     }
 
-    public static void getFileInfo(String url, final String file_id)
+    public void getFileInfo(String url, final String file_id)
     {
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -451,18 +432,17 @@ public class HTTPRequests {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("file_id", file_id);
                 return params;
             }
         };
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
-
+        reqQueue.add(postRequest);
     }
 
 
-    public static void loadFileData(final String file_id, final Context context)
+    public void loadFileData(final String file_id, final Context context)
     {
         final ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Loading data...");
@@ -505,16 +485,16 @@ public class HTTPRequests {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("file_id", file_id);
                 return params;
             }
         };
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
+        reqQueue.add(postRequest);
     }
 
-    public static void uploadImage(final Bitmap bitmap, Context context)
+    public void uploadImage(final Bitmap bitmap, Context context)
     {
         final ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Loading data...");
@@ -537,16 +517,16 @@ public class HTTPRequests {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("file", getStringImage(bitmap));
                 return params;
             }
         };
 
-        ApplicationController.getInstance().addToRequestQueue(postRequest);
+        reqQueue.add(postRequest);
     }
 
-    public static String getStringImage(Bitmap bm)
+    public String getStringImage(Bitmap bm)
     {
         ByteArrayOutputStream ba = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG,100,ba);

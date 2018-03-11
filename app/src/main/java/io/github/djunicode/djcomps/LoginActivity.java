@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -16,7 +17,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.RequestFuture;
+
+import org.json.JSONObject;
+
 import java.lang.ref.WeakReference;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import io.github.djunicode.djcomps.fragments.HomeFragment;
 
@@ -160,12 +169,17 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             // TODO: do verifications from server
+            RequestFuture<JSONObject> future = new HTTPRequests(wrContext.get()).onLoginRequest(sap, password);
             try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
+                JSONObject object = future.get(10, TimeUnit.SECONDS);
+                Log.e("obect", String.valueOf(object));
+                //TODO: get tokken
+                return "";
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 e.printStackTrace();
+                return null;
             }
-            return "";
+
         }
 
         @Override

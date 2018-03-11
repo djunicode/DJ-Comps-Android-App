@@ -190,7 +190,7 @@ public class FileViewFragment extends Fragment {
 
                         //TODO: make api call to update recycler view using isAscending and sortBy values
                         fileAdapter.clear();
-                        HTTPRequests.getAllFiles(fileAdapter, "http://djunicode.pythonanywhere/file", "0", "5", sortBy, sortOrder);
+                        new HTTPRequests(getContext()).getAllFiles(fileAdapter, "http://djunicode.pythonanywhere/file", "0", "5", sortBy, sortOrder);
 
                     }
                 });
@@ -249,7 +249,7 @@ public class FileViewFragment extends Fragment {
         }*/
 
         fileAdapter.clear();
-        HTTPRequests.getAllFiles(fileAdapter, "http://djunicode.pythonanywhere/file", "0", "5", null, null);
+        new HTTPRequests(getContext()).getAllFiles(fileAdapter, "http://djunicode.pythonanywhere/file", "0", "5", null, null);
 
     }
 
