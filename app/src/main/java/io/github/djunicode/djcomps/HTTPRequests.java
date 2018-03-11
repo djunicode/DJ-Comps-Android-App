@@ -3,8 +3,11 @@ package io.github.djunicode.djcomps;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.github.djunicode.djcomps.adapters.FileAdapter;
 import io.github.djunicode.djcomps.adapters.UserAdapter;
@@ -37,6 +41,8 @@ import io.github.djunicode.djcomps.database.AppDatabase;
 import io.github.djunicode.djcomps.database.data.File;
 import io.github.djunicode.djcomps.database.data.Group;
 import io.github.djunicode.djcomps.database.data.User;
+
+import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_ID;
 
 public class HTTPRequests {
 
@@ -527,44 +533,19 @@ public class HTTPRequests {
         reqQueue.add(postRequest);
     }
 
-    public void uploadImage(final Bitmap bitmap, Context context)
-    {
-        final ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Loading data...");
-        progressDialog.show();
+    public void uploadFileRequest(Context context, Uri uri, String filename, String description) {
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, "http://djunicode.pythonanywhere.com/file/upload",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        progressDialog.dismiss();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                        Log.d("Error.Response", error.getMessage());
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("file", getStringImage(bitmap));
-                return params;
-            }
-        };
+        String url = baseUrl + "/file/upload/";
 
-        reqQueue.add(postRequest);
-    }
+        SharedPreferences spref = context.getSharedPreferences(SP_LOGIN_ID, Context.MODE_PRIVATE);
 
-    public String getStringImage(Bitmap bm) {
-        ByteArrayOutputStream ba = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG,100,ba);
-        byte[] imagebyte = ba.toByteArray();
-        String encode = Base64.encodeToString(imagebyte, Base64.DEFAULT);
-        return encode;
+        Map<String, String> params = new HashMap<>();
+        params.put("name", filename);
+        params.put("submitted_by", spref.getString(LoginActivity.SP_LOGIN_USER_SAP, null));
+        params.put("description", description);
+
+
+        new MultipartRequest(context, url, "file_data", uri, params).execute();
     }
 
     void syncGroups(){
