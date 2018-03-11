@@ -169,11 +169,12 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             // TODO: do verifications from server
-            RequestFuture<JSONObject> future = new HTTPRequests(wrContext.get()).onLoginRequest(sap, password);
+            RequestFuture<String> future = new HTTPRequests(wrContext.get()).onLoginRequest(sap, password);
             try {
-                JSONObject object = future.get(10, TimeUnit.SECONDS);
-                Log.e("obect", String.valueOf(object));
-                //TODO: get tokken
+                String jsonStr = future.get(10, TimeUnit.SECONDS);
+                new HTTPRequests(wrContext.get()).syncGroups();
+
+                //TODO: get token from jsonStr
                 return "";
             } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 e.printStackTrace();

@@ -15,9 +15,9 @@ public class Group {
 
     public char division;
 
-    public float total_disk_available;
+    public double total_disk_available;
 
-    public Group(Long group_id, boolean student, int year, char division, float total_disk_available) {
+    public Group(Long group_id, boolean student, int year, char division, double total_disk_available) {
         this.group_id=group_id;
         this.student=student;
         this.year=year;

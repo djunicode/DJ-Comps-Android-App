@@ -4,60 +4,78 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.ref.WeakReference;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.github.djunicode.djcomps.adapters.FileAdapter;
 import io.github.djunicode.djcomps.adapters.UserAdapter;
+import io.github.djunicode.djcomps.database.AppDatabase;
 import io.github.djunicode.djcomps.database.data.File;
+import io.github.djunicode.djcomps.database.data.Group;
 import io.github.djunicode.djcomps.database.data.User;
 
 public class HTTPRequests {
 
+    private static String baseUrl = "http://192.168.0.205:8888";
+
     private static RequestQueue reqQueue;
+    private Context context;
 
     public HTTPRequests(Context context) {
+        this.context = context;
         if(reqQueue == null)
             reqQueue = Volley.newRequestQueue(context);
     }
 
 
-    RequestFuture<JSONObject> onLoginRequest(final String sap_id, final String password) {
+    RequestFuture<String> onLoginRequest(final String sap_id, final String password) {
 
-        RequestFuture<JSONObject> futureRequest = RequestFuture.newFuture();
-        String url = "http://192.168.0.205:8888/login";
+        RequestFuture<String> futureRequest = RequestFuture.newFuture();
+        String url = baseUrl + "/login";
 
-        JsonObjectRequest jsonPostRequest = new JsonObjectRequest(Request.Method.POST, url,
-                new JSONObject(), futureRequest, futureRequest){
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url, futureRequest, futureRequest){
 
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<>();
                 params.put("sap_id", sap_id);
                 params.put("password", password);
                 return params;
             }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
         };
 
-        reqQueue.add(jsonPostRequest);
+        reqQueue.add(postRequest);
         return futureRequest;
     }
 
@@ -144,14 +162,17 @@ public class HTTPRequests {
         reqQueue.add(postRequest);
     }
 
-    public void getUsersByGroup(final String groupname, final UserAdapter adapter) {
+    public void getUsersByGroup(final List<Integer> groups, final UserAdapter adapter) {
 
-        String url = "http://localhost";
+        Log.e("lists", String.valueOf(groups));
+
+        String url = baseUrl + "/users/group";
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.e("response", response);
                         try {
                             JSONArray array = new JSONArray(response);
                             for (int i = 0; i < array.length(); i++) {
@@ -160,12 +181,13 @@ public class HTTPRequests {
                                         o.getLong("sap_id"),
                                         o.getString("bio"),
                                         o.getString("name"),
-                                        o.getLong("group_id"),
-                                        o.getString("profile_image_url")
+                                        o.getLong("group"),
+                                        null
                                 );
 
                                 adapter.addUser(item);
-                            }} catch (JSONException e) {
+                            }
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
@@ -173,14 +195,25 @@ public class HTTPRequests {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", error.getMessage());
+                        Log.d("Error.Response", error.networkResponse.toString());
+                        Toast.makeText(context, "Error getting users from server", Toast.LENGTH_SHORT).show();
                     }
                 }
-        );
+        ){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<>();
+                params.put("group", groups.toString());
+                return params;
+            }
 
-        HashMap<String, String> params = new HashMap<>();
-        if(groupname!=null)
-            params.put("group", groupname);
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
 
         reqQueue.add(postRequest);
     }
@@ -526,12 +559,67 @@ public class HTTPRequests {
         reqQueue.add(postRequest);
     }
 
-    public String getStringImage(Bitmap bm)
-    {
+    public String getStringImage(Bitmap bm) {
         ByteArrayOutputStream ba = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG,100,ba);
         byte[] imagebyte = ba.toByteArray();
         String encode = Base64.encodeToString(imagebyte, Base64.DEFAULT);
         return encode;
+    }
+
+    void syncGroups(){
+        String url = baseUrl + "/Group";
+
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            List<Group> userGroups = new ArrayList<>();
+                            for(int i=0; i<jsonArray.length(); i++){
+                                JSONObject groupObj = jsonArray.getJSONObject(i);
+                                String grpCategory = groupObj.getString("category");
+                                Group group = new Group(
+                                        groupObj.getLong("group_id"),
+                                        grpCategory.equalsIgnoreCase("S"),
+                                        groupObj.getInt("year"),
+                                        groupObj.getString("division").charAt(0),
+                                        groupObj.getDouble("total_disk_available")
+                                );
+                                userGroups.add(group);
+                            }
+                            new syncGroupDatabase(context, userGroups).execute();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.networkResponse.toString());
+                    }
+                }
+        );
+
+        reqQueue.add(getRequest);
+    }
+
+    private static class syncGroupDatabase extends AsyncTask<Void, Void, Void> {
+
+        WeakReference<Context> wrContext;
+        List<Group> groups;
+
+        syncGroupDatabase(Context context, List<Group> groups){
+            this.wrContext = new WeakReference<>(context);
+            this.groups = groups;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            AppDatabase.getInMemoryDatabase(wrContext.get()).groupModel().insertGroups(groups);
+            return null;
+        }
     }
 }

@@ -15,6 +15,9 @@ public interface GroupDao {
     @Insert
     void insertGroup(Group group);
 
+    @Insert
+    void insertGroups(List<Group> groups);
+
     @Delete
     void deleteGroup(Group group);
 
@@ -32,5 +35,8 @@ public interface GroupDao {
 
     @Query("select * from groups")
     List<Group> getAllGroups();
+
+    @Query("select group_id from groups")
+    List<Integer> getAllGroupIds();
 
 }

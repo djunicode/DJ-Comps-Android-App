@@ -1,7 +1,9 @@
 package io.github.djunicode.djcomps.fragments;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,11 +22,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
+import java.util.List;
 
+import io.github.djunicode.djcomps.HTTPRequests;
 import io.github.djunicode.djcomps.R;
 import io.github.djunicode.djcomps.adapters.UserAdapter;
-import io.github.djunicode.djcomps.database.data.User;
+import io.github.djunicode.djcomps.database.AppDatabase;
 
 public class UserViewFragment extends Fragment {
 
@@ -70,7 +75,7 @@ public class UserViewFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(userAdapter);
 
-        prepareUsers();
+        new prepareUsersTask(getContext(), userAdapter).execute();
 
         return view;
     }
@@ -125,19 +130,6 @@ public class UserViewFragment extends Fragment {
         };
     }
 
-    private void prepareUsers() {
-
-        User ar[];
-        ar=new User[10];
-
-        ar[0]= new User(60000000000l, "XYZ", "Abcdef Ghijkl", 1l, "");
-        ar[1]= new User(60000000001l, "ABC", "Xyzqbc Defg", 2l, "");
-
-        for(int i=0; i<2; i++){
-            userAdapter.addUser(ar[i]);
-        }
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_explore, menu);
@@ -161,6 +153,24 @@ public class UserViewFragment extends Fragment {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private static class prepareUsersTask extends AsyncTask<Void, Void, Void> {
+
+        WeakReference<Context> wrContext;
+        UserAdapter userAdapter;
+
+        prepareUsersTask(Context context, UserAdapter userAdapter){
+            this.wrContext = new WeakReference<>(context);
+            this.userAdapter = userAdapter;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            List<Integer> userGroups = AppDatabase.getInMemoryDatabase(wrContext.get()).groupModel().getAllGroupIds();
+            new HTTPRequests(wrContext.get()).getUsersByGroup(userGroups, userAdapter);
+            return null;
         }
     }
 

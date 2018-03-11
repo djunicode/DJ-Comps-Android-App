@@ -22,12 +22,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.Arrays;
-import java.util.Date;
 
 import io.github.djunicode.djcomps.HTTPRequests;
 import io.github.djunicode.djcomps.R;
 import io.github.djunicode.djcomps.adapters.FileAdapter;
-import io.github.djunicode.djcomps.database.data.File;
 import io.github.djunicode.djcomps.dialogs.FileUploadDialog;
 
 import static android.app.Activity.RESULT_OK;

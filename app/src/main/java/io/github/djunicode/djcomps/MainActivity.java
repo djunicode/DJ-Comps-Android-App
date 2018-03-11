@@ -25,6 +25,8 @@ import io.github.djunicode.djcomps.fragments.UserViewFragment;
 
 import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_ID;
 import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_LOGGED_IN_STATE;
+import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_USER_SAP;
+import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_USER_TOKEN;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -93,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new HomeFragment();
                 break;
             case R.id.nav_logout:
+                SharedPreferences prefs = getSharedPreferences(SP_LOGIN_ID, Context.MODE_PRIVATE);
+                prefs.edit().putBoolean(SP_LOGIN_LOGGED_IN_STATE, false).apply();
+                this.recreate();
                 break;
 
         }
