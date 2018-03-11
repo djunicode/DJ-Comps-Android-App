@@ -92,6 +92,7 @@ public class FileViewFragment extends Fragment {
         else if(fragmentType == Type.Uploads){
             filterbar.setVisibility(View.GONE);
             uploadFAB.setOnClickListener(uploadButtonOnClick());
+            new HTTPRequests(getContext()).setDiskUtilizationOnFilterBar(utilCard);
         }
 
         sortByButton.setOnClickListener(sortByButtonOnClick());

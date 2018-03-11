@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.RequestFuture;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String SP_LOGIN_LOGGED_IN_STATE = "LoggedInState";
     public static final String SP_LOGIN_USER_SAP = "UserSAP";
     public static final String SP_LOGIN_USER_TOKEN = "UserToken";
+    public static final String SP_LOGIN_USER_GROUP = "UserGroup";
 
     // Lock to avoid deadlock
     private static boolean lockLogin = false;
@@ -142,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
         new signInTask(this, sap, password, sapET, passwordView, progressDialog).execute();
     }
 
-    private static class signInTask extends AsyncTask<Void, Void, String> {
+    private static class signInTask extends AsyncTask<Void, Void, JSONObject> {
 
         WeakReference<Context> wrContext;
         WeakReference<Activity> wrActivity;
@@ -167,16 +169,14 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected JSONObject doInBackground(Void... params) {
             // TODO: do verifications from server
             RequestFuture<String> future = new HTTPRequests(wrContext.get()).onLoginRequest(sap, password);
             try {
                 String jsonStr = future.get(10, TimeUnit.SECONDS);
                 new HTTPRequests(wrContext.get()).syncGroups();
-
-                //TODO: get token from jsonStr
-                return "";
-            } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                return new JSONObject(jsonStr);
+            } catch (InterruptedException | ExecutionException | TimeoutException | JSONException e) {
                 e.printStackTrace();
                 return null;
             }
@@ -184,14 +184,20 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String token){
-            if(token != null){
+        protected void onPostExecute(JSONObject response){
+            if(response != null){
                 SharedPreferences prefs = wrContext.get().getSharedPreferences(SP_LOGIN_ID, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
 
-                editor.putBoolean(SP_LOGIN_LOGGED_IN_STATE, true);
-                editor.putString(SP_LOGIN_USER_SAP, sap);
-                editor.putString(SP_LOGIN_USER_TOKEN, token);
+                try {
+                    editor.putString(SP_LOGIN_USER_SAP, response.getString("sap_id"));
+                    editor.putLong(SP_LOGIN_USER_GROUP, response.getLong("group_id"));
+                    editor.putBoolean(SP_LOGIN_LOGGED_IN_STATE, true);
+                    //TODO: get token from response
+                    //editor.putString(SP_LOGIN_USER_TOKEN, token);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 editor.apply();
 

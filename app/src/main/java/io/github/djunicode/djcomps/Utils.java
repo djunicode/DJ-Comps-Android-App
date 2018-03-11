@@ -35,7 +35,7 @@ public class Utils {
         return result;
     }
 
-    public static String getMimeType(Context context, Uri uri) {
+    static String getMimeType(Context context, Uri uri) {
         String mimeType = null;
         if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
             ContentResolver cr = context.getContentResolver();
@@ -47,6 +47,10 @@ public class Utils {
                     fileExtension.toLowerCase());
         }
         return mimeType;
+    }
+
+    static String kilobytesToGigabytes(Double kb){
+        return kb/1048576.0 + " GB";
     }
 
 }

@@ -168,7 +168,7 @@ public class UserViewFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            List<Integer> userGroups = AppDatabase.getInMemoryDatabase(wrContext.get()).groupModel().getAllGroupIds();
+            List<Integer> userGroups = AppDatabase.getDatabase(wrContext.get()).groupModel().getAllGroupIds();
             new HTTPRequests(wrContext.get()).getUsersByGroup(userGroups, userAdapter);
             return null;
         }

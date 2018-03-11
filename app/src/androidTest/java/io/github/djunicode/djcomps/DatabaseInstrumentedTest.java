@@ -27,7 +27,7 @@ public class DatabaseInstrumentedTest {
     public void testGroupDatabase() {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        AppDatabase database = AppDatabase.getInMemoryDatabase(appContext);
+        AppDatabase database = AppDatabase.getDatabase(appContext);
 
         GroupDao db = database.groupModel();
 
@@ -68,7 +68,7 @@ public class DatabaseInstrumentedTest {
     public void testUserDatabase() {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        AppDatabase database = AppDatabase.getInMemoryDatabase(appContext);
+        AppDatabase database = AppDatabase.getDatabase(appContext);
 
         UserDao db = database.userModel();
 

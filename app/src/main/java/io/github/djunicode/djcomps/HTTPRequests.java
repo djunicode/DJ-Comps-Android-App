@@ -4,12 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -20,20 +19,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonObject;
+import com.daimajia.numberprogressbar.NumberProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import io.github.djunicode.djcomps.adapters.FileAdapter;
 import io.github.djunicode.djcomps.adapters.UserAdapter;
@@ -43,6 +40,7 @@ import io.github.djunicode.djcomps.database.data.Group;
 import io.github.djunicode.djcomps.database.data.User;
 
 import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_ID;
+import static io.github.djunicode.djcomps.LoginActivity.SP_LOGIN_USER_GROUP;
 
 public class HTTPRequests {
 
@@ -587,6 +585,10 @@ public class HTTPRequests {
         reqQueue.add(getRequest);
     }
 
+    public void setDiskUtilizationOnFilterBar(View utilizationCard){
+        new setFilterBarTask(context, utilizationCard).execute();
+    }
+
     private static class syncGroupDatabase extends AsyncTask<Void, Void, Void> {
 
         WeakReference<Context> wrContext;
@@ -599,7 +601,93 @@ public class HTTPRequests {
 
         @Override
         protected Void doInBackground(Void... params) {
-            AppDatabase.getInMemoryDatabase(wrContext.get()).groupModel().insertGroups(groups);
+            Log.e("groups", String.valueOf(groups));
+            AppDatabase.getDatabase(wrContext.get()).groupModel().insertGroups(groups);
+            return null;
+        }
+    }
+
+    private static class setFilterBarTask extends AsyncTask<Void, Void, Void> {
+
+        WeakReference<Context> wrContext;
+        WeakReference<View> wrUtilizationCard;
+
+        setFilterBarTask(Context context, View utilizationCard){
+            this.wrContext = new WeakReference<>(context);
+            this.wrUtilizationCard = new WeakReference<>(utilizationCard);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            SharedPreferences spref = wrContext.get().getSharedPreferences(SP_LOGIN_ID, Context.MODE_PRIVATE);
+            final String sapId = spref.getString(LoginActivity.SP_LOGIN_USER_SAP, null);
+            Long grpId = spref.getLong(SP_LOGIN_USER_GROUP, 0);
+
+            final TextView noOfUploads = wrUtilizationCard.get().findViewById(R.id.disk_util_no_of_uploads);
+            final NumberProgressBar progressBar = wrUtilizationCard.get().findViewById(R.id.number_progress_bar);
+            final TextView diskUtilizationStr = wrUtilizationCard.get().findViewById(R.id.disk_utilization_string);
+
+            final Double totalDisk = AppDatabase.getDatabase(wrContext.get()).groupModel().getGroupById(grpId).total_disk_available;
+            final String totalDiskStr = Utils.kilobytesToGigabytes(totalDisk);
+
+            StringRequest postRequest = new StringRequest(Request.Method.POST, baseUrl + "/users/sap_id",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                Double diskUsed = jsonObject.getDouble("disk_utilization");
+                                String usedStr = Utils.kilobytesToGigabytes(diskUsed);
+                                progressBar.setProgress((int) (100.0*diskUsed/totalDisk));
+                                diskUtilizationStr.setText(usedStr + " of " + totalDiskStr + " used");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("sap_id", sapId);
+                    return params;
+                }
+            };
+
+            reqQueue.add(postRequest);
+
+            postRequest = new StringRequest(Request.Method.POST, baseUrl + "/file/user",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            JSONArray jsonArray = new JSONArray();
+                            noOfUploads.setText(String.valueOf(jsonArray.length()));
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                            Log.d("Error.Response", error.networkResponse.toString());
+                        }
+                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("sap_id", sapId);
+                    return params;
+                }
+            };
+
+            reqQueue.add(postRequest);
             return null;
         }
     }

@@ -25,9 +25,9 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract FileDao fileModel();
 
 
-    public static AppDatabase getInMemoryDatabase(Context context) {
+    public static AppDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
-            INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class).build();
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "dj_comps").build();
         }
         return INSTANCE;
     }
